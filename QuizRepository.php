@@ -18,7 +18,7 @@ class QuizRepository {
         return $dbc;
     }
 
-    public function getQuestions() {
+    public function getQuestions() { 
 
         $sql = "SELECT * FROM quiz_questions ORDER BY quiz_id";
         return QuizRepository::getConnection()->query($sql);
