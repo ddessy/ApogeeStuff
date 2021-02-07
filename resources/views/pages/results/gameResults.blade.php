@@ -4,7 +4,7 @@
 
 @section('content')
     <div style="padding: 30px 0 30px 0">
-        <h2 style="margin-bottom: 30px">Results for game: <span style="color: dodgerblue">WHO IS VALCHAN VOIVODA</span></h2>
+        <h2 style="margin-bottom: 30px">Results for game: <span style="color: dodgerblue">{{$game->game_name}}</span></h2>
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
             <tr>
@@ -33,15 +33,31 @@
         </table>
 
         <div style="margin-top: 30px">
-            <select class="custom-select margin-right" style="width: 30%">
-                <option selected>Choose a Hall / Mini-game</option>
-                @foreach ($miniGames as $miniGame)
-                    <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
-                @endforeach
-            </select>
-            <button class="btn btn-primary" type="button" onclick="window.location='{{ url("/view-results/mini-game-results") }}'">
-                View Results
-            </button>
+            <form action="/view-results/getMiniGameResults" method="POST">
+                @csrf
+                <select class="custom-select margin-right" style="width: 30%" name="chosenHallAndMiniGame">
+                    <option value="" selected>Choose a Hall / Mini-game</option>
+                    @foreach ($miniGames as $miniGame)
+                        <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
+                    @endforeach
+                </select>
+
+                <input name="gameId" type="hidden" value="{{$game->id}}">
+
+                <button class="btn btn-primary" type="submit">
+                    View Results
+                </button>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger" style="margin-top: 10px; width: 30%">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>Please choose a Hall / Mini-game</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </form>
         </div>
     </div>
 

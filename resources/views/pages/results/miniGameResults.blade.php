@@ -3,31 +3,28 @@
 @section('title', 'View Results')
 
 @section('content')
-
-    <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
-    <div style="margin-bottom: 30px">
-        <h2>Results for mini-game: <span style="color: dodgerblue">WHO IS VALCHAN VOIVODA</span></h2>
+    <div style="margin-top: 30px">
+        <h2>Results for <span style="color: dodgerblue">{{session('chosenHallAndMiniGame')}}</span></h2>
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th>Play Time</th>
+                <th>Points</th>
+                <th>Score</th>
+                <th>Goals</th>
+                <th>Efficiency</th>
             </tr>
             </thead>
             <tbody>
-            @foreach ($results as $result)
+            @foreach (session('results') as $result)
                 <tr>
-                    <td>{{$result->total_playing_time}}</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
+                    <td>{{session('users')->where('id', $result->player_id)->first()->nick_name}}</td>
+                    <td>{{$result->playing_time}} s</td>
+                    <td>{{$result->points}}</td>
+                    <td>{{$result->general_score * 100}} %</td>
+                    <td>{{$result->game_goals_exec * 100}} %</td>
+                    <td>{{$result->efficiency * 100}} %</td>
                 </tr>
             @endforeach
             </tbody>

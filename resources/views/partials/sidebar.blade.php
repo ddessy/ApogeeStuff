@@ -11,7 +11,7 @@
                 <a
                     class="nav-link
                     {{ Request::is('view-results') ||
-                    Request::is('view-results/hall-results') ||
+                    Request::is('view-results/game-results') ||
                     Request::is('view-results/mini-game-results') ? 'active' : '' }}"
                     href="{{ url('view-results') }}">
                     <span data-feather="file-text"></span>
