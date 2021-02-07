@@ -36,7 +36,7 @@
     <div style="margin-top: 30px">
         <form action="/view-results/getMiniGameResults" method="POST">
             @csrf
-            <select class="custom-select margin-right" style="width: 30%" name="chosenHallAndMiniGame">
+            <select class="custom-select margin-right" style="width: 30%" name="hallAndMiniGame">
                 <option value="" selected>Choose a Hall / Mini-game</option>
                 @foreach ($miniGames as $miniGame)
                     <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
@@ -64,21 +64,21 @@
     <div style="margin-top: 100px">
         <h2 style="margin-bottom: 30px">Analytics</h2>
 
-        <select class="custom-select margin-right" style="width: 25%" name="chosenHallAndMiniGame">
+        <select class="custom-select margin-right" style="width: 25%">
             <option value="" selected>Choose a column</option>
             @foreach ($miniGames as $miniGame)
                 <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
             @endforeach
         </select>
 
-        <select class="custom-select margin-right" style="width: 25%" name="chosenHallAndMiniGame">
+        <select class="custom-select margin-right" style="width: 25%">
             <option value="" selected>Choose a column</option>
             @foreach ($miniGames as $miniGame)
                 <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
             @endforeach
         </select>
 
-        <select class="custom-select margin-right" style="width: 25%" name="chosenHallAndMiniGame">
+        <select class="custom-select margin-right" style="width: 25%">
             <option value="" selected>Choose a method</option>
             @foreach ($miniGames as $miniGame)
                 <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>

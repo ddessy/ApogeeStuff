@@ -4,7 +4,7 @@
 
 @section('content')
     <div style="margin-top: 30px">
-        <h2 style="margin-bottom: 30px">Results for <span style="color: dodgerblue">{{session('chosenHallAndMiniGame')}}</span></h2>
+        <h2 style="margin-bottom: 30px">Results for <span style="color: dodgerblue">{{session('hallAndMiniGame')}}</span></h2>
         <table id="miniGameResults" class="table table-striped table-bordered" style="width:100%">
             <thead>
             <tr>

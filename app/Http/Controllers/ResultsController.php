@@ -22,14 +22,14 @@ class ResultsController extends Controller
     public function gameResultsPage(Request $request)
     {
         $request->validate([
-            'chosenGameId' => 'required',
+            'gameId' => 'required',
         ]);
 
-        $chosenGameId = $request->chosenGameId;
-        $game = Game::find($chosenGameId);
-        $results = MazeGameResult::where('maze_game_id', $chosenGameId)->get();
+        $gameId = $request->gameId;
+        $game = Game::find($gameId);
+        $results = MazeGameResult::where('maze_game_id', $gameId)->get();
         $users = User::all();
-        $miniGames = PuzzleGamesResult::select('puzzle_game_name')->where('maze_game_id', $chosenGameId)->groupBy('puzzle_game_name')->get();
+        $miniGames = PuzzleGamesResult::select('puzzle_game_name')->where('maze_game_id', $gameId)->groupBy('puzzle_game_name')->get();
 
         return view('pages.results.gameResults', ['game' => $game, 'results' => $results, 'users' => $users, 'miniGames' => $miniGames]);
     }
@@ -37,20 +37,20 @@ class ResultsController extends Controller
     public function getMiniGameResults(Request $request)
     {
         $request->validate([
-            'chosenHallAndMiniGame' => 'required',
+            'hallAndMiniGame' => 'required',
         ]);
 
-        $chosenHallAndMiniGame = $request->chosenHallAndMiniGame;
+        $hallAndMiniGame = $request->hallAndMiniGame;
         $gameId = $request->gameId;
-        $results = PuzzleGamesResult::where('puzzle_game_name', $chosenHallAndMiniGame)->where('maze_game_id', $gameId)->get();
+        $results = PuzzleGamesResult::where('puzzle_game_name', $hallAndMiniGame)->where('maze_game_id', $gameId)->get();
         $users = User::all();
 
-        return redirect('/view-results/mini-game-results')->with(['chosenHallAndMiniGame' => $chosenHallAndMiniGame, 'results' => $results, 'users' => $users]);
+        return redirect('/view-results/mini-game-results')->with(['hallAndMiniGame' => $hallAndMiniGame, 'results' => $results, 'users' => $users]);
     }
 
     public function miniGameResultsPage()
     {
-        if (Session()->has('chosenHallAndMiniGame')) {
+        if (Session()->has('hallAndMiniGame')) {
             return view('pages.results.miniGameResults');
         }
 

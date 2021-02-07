@@ -12,7 +12,7 @@
     </div>
 
     <form action="/view-results/game-results" method="GET">
-        <select class="custom-select margin-right" style="width: 30%" name="chosenGameId">
+        <select class="custom-select margin-right" style="width: 30%" name="gameId">
             <option value="" selected>Choose a game</option>
             @foreach ($games as $game)
                 <option value="{{$game->id}}">{{$game->game_name}}</option>
