@@ -14,12 +14,9 @@ class ResultsController extends Controller
     public function viewResultsPage()
     {
         $games = Game::all();
+        $usersCount = count(User::all());
 
-        $results = MazeGameResult::all();
-
-        $users = User::all();
-
-        return view('pages.results.viewResults', ['games' => $games, 'results' => $results, 'users' => $users]);
+        return view('pages.results.viewResults', ['games' => $games, 'usersCount' => $usersCount]);
     }
 
     public function gameResultsPage(Request $request)
@@ -29,14 +26,10 @@ class ResultsController extends Controller
         ]);
 
         $chosenGameId = $request->chosenGameId;
-
         $game = Game::find($chosenGameId);
-
         $results = MazeGameResult::where('maze_game_id', $chosenGameId)->get();
-
         $users = User::all();
-
-        $miniGames = PuzzleGamesResult::select('puzzle_game_name')->groupBy('puzzle_game_name')->get();
+        $miniGames = PuzzleGamesResult::select('puzzle_game_name')->where('maze_game_id', $chosenGameId)->groupBy('puzzle_game_name')->get();
 
         return view('pages.results.gameResults', ['game' => $game, 'results' => $results, 'users' => $users, 'miniGames' => $miniGames]);
     }
@@ -49,9 +42,7 @@ class ResultsController extends Controller
 
         $chosenHallAndMiniGame = $request->chosenHallAndMiniGame;
         $gameId = $request->gameId;
-
         $results = PuzzleGamesResult::where('puzzle_game_name', $chosenHallAndMiniGame)->where('maze_game_id', $gameId)->get();
-
         $users = User::all();
 
         return redirect('/view-results/mini-game-results')->with(['chosenHallAndMiniGame' => $chosenHallAndMiniGame, 'results' => $results, 'users' => $users]);

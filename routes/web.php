@@ -16,10 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [DashboardController::class, 'dashboardPage']);
-
 Route::get('/view-results', [ResultsController::class, 'viewResultsPage']);
-
 Route::get('/view-results/game-results', [ResultsController::class, 'gameResultsPage']);
-
 Route::post('/view-results/getMiniGameResults', [ResultsController::class, 'getMiniGameResults']);
 Route::get('/view-results/mini-game-results', [ResultsController::class, 'miniGameResultsPage']);

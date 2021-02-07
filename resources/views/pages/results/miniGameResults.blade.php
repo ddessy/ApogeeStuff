@@ -4,8 +4,8 @@
 
 @section('content')
     <div style="margin-top: 30px">
-        <h2>Results for <span style="color: dodgerblue">{{session('chosenHallAndMiniGame')}}</span></h2>
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <h2 style="margin-bottom: 30px">Results for <span style="color: dodgerblue">{{session('chosenHallAndMiniGame')}}</span></h2>
+        <table id="miniGameResults" class="table table-striped table-bordered" style="width:100%">
             <thead>
             <tr>
                 <th>Name</th>
@@ -44,5 +44,5 @@
     @parent
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/js/pages/results/index.js"></script>
+    <script src="/js/pages/results/miniGameResults.js"></script>
 @endsection

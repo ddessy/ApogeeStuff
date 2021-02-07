@@ -31,6 +31,6 @@
 
 
         <!-- Custom styles for this template -->
-        <link href="/css/dashboard.css" rel="stylesheet">
+        <link href="/css/global.css" rel="stylesheet">
     @show
 </head>

@@ -1,6 +1,4 @@
 $(document).ready(async function () {
-    $('#example').DataTable();
-
     await getGames();
 
     async function getGames() {

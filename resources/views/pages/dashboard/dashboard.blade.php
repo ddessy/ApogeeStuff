@@ -151,3 +151,13 @@
     </div>
 
 @endsection
+
+@section('addCss')
+    @parent
+@endsection
+
+
+@section('addJs')
+    @parent
+    <script src="/js/pages/dashboard/dashboard.js"></script>
+@endsection

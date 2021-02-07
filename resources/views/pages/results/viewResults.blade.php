@@ -7,7 +7,7 @@
         <div style="position: relative; margin: auto; width: 80%; top: 8px">
             <h3 style="display: inline-block; font-size: 23px; margin-right: 10px">Total players</h3>
             <span data-feather="user" style="height: 30px; width: 30px; color: dodgerblue"></span>
-            <h3 style="font-size: 18px; color: darkgrey">{{count($users)}}</h3>
+            <h3 style="font-size: 18px; color: darkgrey">{{$usersCount}}</h3>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
     @parent
 
     <link href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="/css/pages/results/index.css" rel="stylesheet">
+    <link href="/css/pages/results/viewResults.css" rel="stylesheet">
 @endsection
 
 
@@ -48,5 +48,5 @@
     @parent
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/js/pages/results/index.js"></script>
+    <script src="/js/pages/results/viewResults.js"></script>
 @endsection
