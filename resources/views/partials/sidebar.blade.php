@@ -18,6 +18,12 @@
                     View Results
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('statistics') ? 'active' : '' }}" href="{{ url('statistics') }}">
+                    <span data-feather="bar-chart-2"></span>
+                    Statistics <span class="sr-only">(current)</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

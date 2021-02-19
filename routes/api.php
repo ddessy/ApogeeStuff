@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\GameApiController;
+use App\Http\Controllers\Api\MiniGameApiController;
+use App\Http\Controllers\Api\StatisticsApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//GET
 Route::get('games', [GameApiController::class, 'getGames']);
-Route::get('games/{id}', 'App\Http\Controllers\Api\GameApiController@getGame');
-Route::post('games', 'App\Http\Controllers\Api\GameApiController@createGame');
-Route::put('games/{id}', 'App\Http\Controllers\Api\GameApiController@updateGame');
-Route::delete('games/{id}', 'App\Http\Controllers\Api\GameApiController@deleteGame');
+Route::get('miniGames/{gameId}', [MiniGameApiController::class, 'getMiniGames']);
+
+//POST
+Route::post('statistics/calculateGameResult', [StatisticsApiController::class, 'calculateGameResult']);
+Route::post('statistics/calculateMiniGameResult', [StatisticsApiController::class, 'calculateMiniGameResult']);

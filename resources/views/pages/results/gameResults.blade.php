@@ -60,37 +60,6 @@
             @endif
         </form>
     </div>
-
-    <div style="margin-top: 100px">
-        <h2 style="margin-bottom: 30px">Analytics</h2>
-
-        <select class="custom-select margin-right" style="width: 25%">
-            <option value="" selected>Choose a column</option>
-            @foreach ($miniGames as $miniGame)
-                <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
-            @endforeach
-        </select>
-
-        <select class="custom-select margin-right" style="width: 25%">
-            <option value="" selected>Choose a column</option>
-            @foreach ($miniGames as $miniGame)
-                <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
-            @endforeach
-        </select>
-
-        <select class="custom-select margin-right" style="width: 25%">
-            <option value="" selected>Choose a method</option>
-            @foreach ($miniGames as $miniGame)
-                <option value="{{$miniGame->puzzle_game_name}}">{{$miniGame->puzzle_game_name}}</option>
-            @endforeach
-        </select>
-
-        <button class="btn btn-primary" type="button">
-            Calculate
-        </button>
-
-        <h5 style="margin-top: 30px">Result: <span style="color: dodgerblue">-//-</span></h5>
-    </div>
 @endsection
 
 @section('addCss')

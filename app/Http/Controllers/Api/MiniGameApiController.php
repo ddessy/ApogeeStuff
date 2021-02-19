@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Game;
-use Illuminate\Http\Request;
+use App\Models\PuzzleGamesResult;
 use Illuminate\Routing\Controller;
 
-class GameApiController extends Controller
+class MiniGameApiController extends Controller
 {
-    public function getGames()
+    public function getMiniGames($gameId)
     {
-        $games = Game::all();
-        return response()->json($games, 200);
+        $miniGames = PuzzleGamesResult::select('puzzle_game_name')->where('maze_game_id', $gameId)->groupBy('puzzle_game_name')->get();
+        return response()->json($miniGames, 200);
     }
 
     public function getGame($id)

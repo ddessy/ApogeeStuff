@@ -6,12 +6,18 @@ use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class GameApiController extends Controller
+class StatisticsApiController extends Controller
 {
-    public function getGames()
+    public function calculateGameResult(Request $request)
     {
         $games = Game::all();
-        return response()->json($games, 200);
+        return response()->json($request, 200);
+    }
+
+    public function calculateMiniGameResult(Request $request)
+    {
+        $games = Game::all();
+        return response()->json($request, 200);
     }
 
     public function getGame($id)
