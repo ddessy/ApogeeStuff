@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\StatisticMethodsConstants;
 use App\Models\Game;
 use App\Models\MazeGameResult;
 use App\Models\PuzzleGamesResult;
@@ -13,9 +14,26 @@ class StatisticsController extends BaseController
     {
         $games = Game::all();
         $mazeGameResultsColumnNames = array_keys(MazeGameResult::first()->getAttributes());
+        $gameColumnNames = array_filter($mazeGameResultsColumnNames, function ($columnName) {
+            return (strpos($columnName, 'id') === false && strpos($columnName, 'registered') === false);
+        });
         $puzzleGameResultsColumnNames = array_keys(PuzzleGamesResult::first()->getAttributes());
-        $methods = ["correlation" => "Correlation", "standard_deviation" => "Standard Deviation", "standard_error" => "Standard Error"];
+        $miniGameColumnNames = array_filter($puzzleGameResultsColumnNames, function ($columnName) {
+            return (strpos($columnName, 'id') === false && strpos($columnName, 'registered') === false && strpos($columnName, 'name') === false && strpos($columnName, 'grade') === false);
+        });
+        $methods = [
+            StatisticMethodsConstants::CORRELATION => "Correlation",
+            StatisticMethodsConstants::STANRDARD_DEVIATION => "Standard Deviation",
+            StatisticMethodsConstants::STANDARD_ERROR => "Standard Error"
+        ];
 
-        return view('pages.statistics.statistics', ['games' => $games, 'gameColumnNames' => $mazeGameResultsColumnNames, 'miniGameColumnNames' => $puzzleGameResultsColumnNames, 'methods' => $methods]);
+        return view('pages.statistics.statistics',
+            [
+                'games' => $games,
+                'gameColumnNames' => $gameColumnNames,
+                'miniGameColumnNames' => $miniGameColumnNames,
+                'methods' => $methods
+            ]
+        );
     }
 }
