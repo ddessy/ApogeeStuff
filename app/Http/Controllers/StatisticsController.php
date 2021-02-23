@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 class StatisticsController extends BaseController
 {
-    public function analyticsPage()
+    public function statisticsPage()
     {
         $games = Game::all();
         $mazeGameResultsColumnNames = array_keys(MazeGameResult::first()->getAttributes());
@@ -29,8 +29,8 @@ class StatisticsController extends BaseController
 
         return view('pages.statistics.statistics',
             [
-                'games' => $games,
-                'gameColumnNames' => $gameColumnNames,
+                'mazeGames' => $games,
+                'mazeGameColumnNames' => $gameColumnNames,
                 'miniGameColumnNames' => $miniGameColumnNames,
                 'methods' => $methods
             ]

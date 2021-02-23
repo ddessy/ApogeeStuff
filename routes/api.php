@@ -26,5 +26,5 @@ Route::get('games', [GameApiController::class, 'getGames']);
 Route::get('miniGames/{gameId}', [MiniGameApiController::class, 'getMiniGames']);
 
 //POST
-Route::post('statistics/calculateGameResult', [StatisticsApiController::class, 'calculateGameResult']);
+Route::post('statistics/calculateMazeGameResult', [StatisticsApiController::class, 'calculateMazeGameResult']);
 Route::post('statistics/calculateMiniGameResult', [StatisticsApiController::class, 'calculateMiniGameResult']);

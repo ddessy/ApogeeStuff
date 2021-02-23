@@ -25,4 +25,4 @@ Route::get('/view-results/game-results', [ResultsController::class, 'gameResults
 Route::post('/view-results/getMiniGameResults', [ResultsController::class, 'getMiniGameResults']);
 Route::get('/view-results/mini-game-results', [ResultsController::class, 'miniGameResultsPage']);
 
-Route::get('/statistics', [StatisticsController::class, 'analyticsPage']);
+Route::get('/statistics', [StatisticsController::class, 'statisticsPage']);

@@ -9,44 +9,44 @@
         <h4 style="margin-bottom: 30px">Maze-game</h4>
 
         <div style="margin-bottom: 30px">
-            <select id="selectGames" class="custom-select margin-right" style="width: 30%" name="gameId"
-                    onchange="onSelectGame()">
-                <option value="" selected>Choose a game</option>
-                @foreach ($games as $game)
-                    <option value="{{$game->id}}">{{$game->game_name}}</option>
+            <select id="selectMazeGames" class="custom-select margin-right" style="width: 30%"
+                    onchange="onSelectMazeGame()">
+                <option value="" selected>Choose a maze-game</option>
+                @foreach ($mazeGames as $mazeGame)
+                    <option value="{{$mazeGame->id}}">{{$mazeGame->game_name}}</option>
                 @endforeach
             </select>
 
-            <div id="gameError" class="alert alert-danger" style="display: none; margin-top: 10px; width: 30%">
+            <div id="mazeGameError" class="alert alert-danger" style="display: none; margin-top: 10px; width: 30%">
                 <ul>
-                    <li>Please choose a game</li>
+                    <li>Please choose a maze-game</li>
                 </ul>
             </div>
         </div>
 
-        <hr style="border-top: 4px solid #dbdbdb; border-radius: 5px">
+        <hr style="border-top: 1px solid #dbdbdb; border-radius: 5px">
 
-        <select id="gameFirstColumn" class="custom-select margin-right" style="width: 25%"
-                onchange="filterGameSecondSelectOptions()">
+        <select id="mazeGameFirstColumn" class="custom-select margin-right" style="width: 25%"
+                onchange="filterMazeGameSecondSelectOptions()">
             <option value="" selected>Choose a property</option>
-            @foreach ($gameColumnNames as $gameColumnName)
-                <option value="{{$gameColumnName}}">{{$gameColumnName}}</option>
+            @foreach ($mazeGameColumnNames as $mazeGameColumnName)
+                <option value="{{$mazeGameColumnName}}">{{$mazeGameColumnName}}</option>
             @endforeach
         </select>
 
-        <select id="gameSecondColumn" class="custom-select margin-right" style="width: 25%"
-                onchange="filterGameFirstSelectOptions()">
+        <select id="mazeGameSecondColumn" class="custom-select margin-right" style="width: 25%"
+                onchange="filterMazeGameFirstSelectOptions()">
             <option value="" selected>Choose a property</option>
-            @foreach ($gameColumnNames as $gameColumnName)
-                <option value="{{$gameColumnName}}">{{$gameColumnName}}</option>
+            @foreach ($mazeGameColumnNames as $mazeGameColumnName)
+                <option value="{{$mazeGameColumnName}}">{{$mazeGameColumnName}}</option>
             @endforeach
         </select>
 
-        <button class="btn btn-primary" type="button" onclick="calculateGame()">
+        <button class="btn btn-primary" type="button" onclick="calculateMazeGame()">
             Calculate
         </button>
 
-        <div id="gamePropertiesError" class="alert alert-danger" style="display: none; margin-top: 10px; width: 30%">
+        <div id="mazeGamePropertiesError" class="alert alert-danger" style="display: none; margin-top: 10px; width: 30%">
             <ul>
                 <li>Please select all properties</li>
             </ul>
@@ -54,14 +54,14 @@
 
         <div>
             <div class="margin-right custom-padding" style="display: inline-block; width: 25%">
-                <h6>M: <span id="gameFirstColumnM" style="color: dodgerblue">-</span></h6>
-                <h6>SD: <span id="gameFirstColumnSD" style="color: dodgerblue">-</span></h6>
-                <h6>SE: <span id="gameFirstColumnSE" style="color: dodgerblue">-</span></h6>
+                <h6>M: <span id="mazeGameFirstColumnM" style="color: dodgerblue">-</span></h6>
+                <h6>SD: <span id="mazeGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
+                <h6>SE: <span id="mazeGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
             </div>
             <div class="custom-padding" style="display: inline-block; width: 25%">
-                <h6>M: <span id="gameSecondColumnM" style="color: dodgerblue">-</span></h6>
-                <h6>SD: <span id="gameSecondColumnSD" style="color: dodgerblue">-</span></h6>
-                <h6>SE: <span id="gameSecondColumnSE" style="color: dodgerblue">-</span></h6>
+                <h6>M: <span id="mazeGameSecondColumnM" style="color: dodgerblue">-</span></h6>
+                <h6>SD: <span id="mazeGameSecondColumnSD" style="color: dodgerblue">-</span></h6>
+                <h6>SE: <span id="mazeGameSecondColumnSE" style="color: dodgerblue">-</span></h6>
             </div>
         </div>
 
@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <hr style="border-top: 4px solid #dbdbdb; border-radius: 5px">
+        <hr style="border-top: 1px solid #dbdbdb; border-radius: 5px">
 
         <select id="miniGameFirstColumn" class="custom-select margin-right" style="width: 25%"
                 onchange="filterMiniGameSecondSelectOptions()">
@@ -103,26 +103,32 @@
             @endforeach
         </select>
 
-        <select id="miniGameStatisticMethods" class="custom-select margin-right" style="width: 25%">
-            <option value="" selected>Choose a method</option>
-            @foreach ($methods as $method)
-                <option value="{{array_search ($method, $methods)}}">{{$method}}</option>
-            @endforeach
-        </select>
-
         <button class="btn btn-primary" type="button" onclick="calculateMiniGame()">
             Calculate
         </button>
 
-        <div id="miniGamePropertiesError" class="alert alert-danger"
-             style="display: none; margin-top: 10px; width: 30%">
+        <div id="miniGamePropertiesError" class="alert alert-danger" style="display: none; margin-top: 10px; width: 30%">
             <ul>
-                <li>Please select all properties and method</li>
+                <li>Please select all properties</li>
             </ul>
         </div>
 
-        <input type="text" readonly class="form-control" id="resultMiniGame" placeholder="Result"
-               style="width: 15%; margin-top: 30px">
+        <div>
+            <div class="margin-right custom-padding" style="display: inline-block; width: 25%">
+                <h6>M: <span id="miniGameFirstColumnM" style="color: dodgerblue">-</span></h6>
+                <h6>SD: <span id="miniGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
+                <h6>SE: <span id="miniGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
+            </div>
+            <div class="custom-padding" style="display: inline-block; width: 25%">
+                <h6>M: <span id="miniGameSecondColumnM" style="color: dodgerblue">-</span></h6>
+                <h6>SD: <span id="miniGameSecondColumnSD" style="color: dodgerblue">-</span></h6>
+                <h6>SE: <span id="miniGameSecondColumnSE" style="color: dodgerblue">-</span></h6>
+            </div>
+        </div>
+
+        <h6 style="margin-top: 30px">Pearson r: <span id="miniGamePearsonCorrelation" style="color: dodgerblue">-</span></h6>
+
+        <h6 style="margin-top: 10px">T-test: <span id="miniGameTTest" style="color: dodgerblue">-</span></h6>
     </div>
 @endsection
 
