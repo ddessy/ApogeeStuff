@@ -42,6 +42,13 @@
             @endforeach
         </select>
 
+        <select id="mazeGameMethod" class="custom-select margin-right" style="width: 25%">
+            <option value="" selected>Choose a method</option>
+            @foreach ($methods as $method)
+                <option value="{{array_search($method, $methods)}}">{{$method}}</option>
+            @endforeach
+        </select>
+
         <button class="btn btn-primary" type="button" onclick="calculateMazeGame()">
             Calculate
         </button>
@@ -52,22 +59,21 @@
             </ul>
         </div>
 
-        <div>
+        <div style="position: relative">
             <div class="margin-right custom-padding" style="display: inline-block; width: 25%">
                 <h6>M: <span id="mazeGameFirstColumnM" style="color: dodgerblue">-</span></h6>
                 <h6>SD: <span id="mazeGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
                 <h6>SE: <span id="mazeGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
             </div>
-            <div class="custom-padding" style="display: inline-block; width: 25%">
+            <div class="margin-right custom-padding" style="display: inline-block; width: 25%">
                 <h6>M: <span id="mazeGameSecondColumnM" style="color: dodgerblue">-</span></h6>
                 <h6>SD: <span id="mazeGameSecondColumnSD" style="color: dodgerblue">-</span></h6>
                 <h6>SE: <span id="mazeGameSecondColumnSE" style="color: dodgerblue">-</span></h6>
             </div>
+            <div class="custom-padding" style="position: absolute; display: inline-block; width: 25%">
+                <h6>Result: <span id="mazeGameMethodResult" style="color: dodgerblue">-</span></h6>
+            </div>
         </div>
-
-        <h6 style="margin-top: 30px">Pearson r: <span id="mazeGamePearsonCorrelation" style="color: dodgerblue">-</span></h6>
-
-        <h6 style="margin-top: 10px">T-test: <span id="mazeGameTTest" style="color: dodgerblue">-</span></h6>
 
         {{--------------------------------------------------------------------------------------------------------------}}
 
@@ -103,6 +109,13 @@
             @endforeach
         </select>
 
+        <select id="miniGameMethod" class="custom-select margin-right" style="width: 25%">
+            <option value="" selected>Choose a method</option>
+            @foreach ($methods as $method)
+                <option value="{{array_search($method, $methods)}}">{{$method}}</option>
+            @endforeach
+        </select>
+
         <button class="btn btn-primary" type="button" onclick="calculateMiniGame()">
             Calculate
         </button>
@@ -113,22 +126,21 @@
             </ul>
         </div>
 
-        <div>
+        <div style="position: relative">
             <div class="margin-right custom-padding" style="display: inline-block; width: 25%">
                 <h6>M: <span id="miniGameFirstColumnM" style="color: dodgerblue">-</span></h6>
                 <h6>SD: <span id="miniGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
                 <h6>SE: <span id="miniGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
             </div>
-            <div class="custom-padding" style="display: inline-block; width: 25%">
+            <div class="margin-right custom-padding" style="display: inline-block; width: 25%">
                 <h6>M: <span id="miniGameSecondColumnM" style="color: dodgerblue">-</span></h6>
                 <h6>SD: <span id="miniGameSecondColumnSD" style="color: dodgerblue">-</span></h6>
                 <h6>SE: <span id="miniGameSecondColumnSE" style="color: dodgerblue">-</span></h6>
             </div>
+            <div class="custom-padding" style="position: absolute; display: inline-block; width: 25%">
+                <h6>Result: <span id="miniGameMethodResult" style="color: dodgerblue">-</span></h6>
+            </div>
         </div>
-
-        <h6 style="margin-top: 30px">Pearson r: <span id="miniGamePearsonCorrelation" style="color: dodgerblue">-</span></h6>
-
-        <h6 style="margin-top: 10px">T-test: <span id="miniGameTTest" style="color: dodgerblue">-</span></h6>
     </div>
 @endsection
 

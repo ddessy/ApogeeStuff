@@ -103,21 +103,21 @@ async function calculateMazeGame() {
     const selectedMazeGameId = document.getElementById("selectMazeGames").value;
     const mazeGameFirstColumn = document.getElementById("mazeGameFirstColumn").value;
     const mazeGameSecondColumn = document.getElementById("mazeGameSecondColumn").value;
+    const selectedMazeGameMethod = document.getElementById("mazeGameMethod").value;
 
     if (selectedMazeGameId) {
         document.getElementById("mazeGameError").style.display = 'none';
 
         if (mazeGameFirstColumn && mazeGameSecondColumn) {
             document.getElementById("mazeGamePropertiesError").style.display = 'none';
-            let response = await calculateMazeGameResult(selectedMazeGameId, mazeGameFirstColumn, mazeGameSecondColumn);
+            let response = await calculateMazeGameResult(selectedMazeGameId, mazeGameFirstColumn, mazeGameSecondColumn, selectedMazeGameMethod);
             document.getElementById("mazeGameFirstColumnM").innerHTML = response.averageFirstColumn;
             document.getElementById("mazeGameFirstColumnSD").innerHTML = response.standardDeviationFirstColumn;
             document.getElementById("mazeGameFirstColumnSE").innerHTML = response.standardErrorFirstColumn;
             document.getElementById("mazeGameSecondColumnM").innerHTML = response.averageSecondColumn;
             document.getElementById("mazeGameSecondColumnSD").innerHTML = response.standardDeviationSecondColumn;
             document.getElementById("mazeGameSecondColumnSE").innerHTML = response.standardErrorSecondColumn;
-            document.getElementById("mazeGamePearsonCorrelation").innerHTML = response.pearsonCorrelation;
-            document.getElementById("mazeGameTTest").innerHTML = response.tTest;
+            document.getElementById("mazeGameMethodResult").innerHTML = response.mazeGameMethodResult;
         } else {
             document.getElementById("mazeGamePropertiesError").style.display = 'block';
         }
@@ -126,13 +126,14 @@ async function calculateMazeGame() {
     }
 }
 
-async function calculateMazeGameResult(selectedMazeGameId, mazeGameFirstColumn, mazeGameSecondColumn) {
+async function calculateMazeGameResult(selectedMazeGameId, mazeGameFirstColumn, mazeGameSecondColumn, selectedMazeGameMethod) {
     try {
         const response = await axios.post('api/statistics/calculateMazeGameResult', {
             params: {
                 selectedMazeGameId: selectedMazeGameId,
                 mazeGameFirstColumn: mazeGameFirstColumn,
                 mazeGameSecondColumn: mazeGameSecondColumn,
+                selectedMazeGameMethod: selectedMazeGameMethod,
             }
         });
         console.log(response);
@@ -145,8 +146,7 @@ async function calculateMazeGameResult(selectedMazeGameId, mazeGameFirstColumn, 
         document.getElementById("mazeGameSecondColumnM").innerHTML = '-';
         document.getElementById("mazeGameSecondColumnSD").innerHTML = '-';
         document.getElementById("mazeGameSecondColumnSE").innerHTML = '-';
-        document.getElementById("mazeGamePearsonCorrelation").innerHTML = '-';
-        document.getElementById("mazeGameTTest").innerHTML = '-';
+        document.getElementById("mazeGameMethodResult").innerHTML = '-';
     }
 }
 
@@ -154,21 +154,21 @@ async function calculateMiniGame() {
     const selectedMiniGameName = document.getElementById("selectMiniGames").value;
     const miniGameFirstColumn = document.getElementById("miniGameFirstColumn").value;
     const miniGameSecondColumn = document.getElementById("miniGameSecondColumn").value;
+    const selectedMiniGameMethod = document.getElementById("miniGameMethod").value;
 
     if (selectedMiniGameName) {
         document.getElementById("miniGameError").style.display = 'none';
 
         if (miniGameFirstColumn && miniGameSecondColumn) {
             document.getElementById("miniGamePropertiesError").style.display = 'none';
-            let response = await calculateMiniGameResult(selectedMiniGameName, miniGameFirstColumn, miniGameSecondColumn);
+            let response = await calculateMiniGameResult(selectedMiniGameName, miniGameFirstColumn, miniGameSecondColumn, selectedMiniGameMethod);
             document.getElementById("miniGameFirstColumnM").innerHTML = response.averageFirstColumn;
             document.getElementById("miniGameFirstColumnSD").innerHTML = response.standardDeviationFirstColumn;
             document.getElementById("miniGameFirstColumnSE").innerHTML = response.standardErrorFirstColumn;
             document.getElementById("miniGameSecondColumnM").innerHTML = response.averageSecondColumn;
             document.getElementById("miniGameSecondColumnSD").innerHTML = response.standardDeviationSecondColumn;
             document.getElementById("miniGameSecondColumnSE").innerHTML = response.standardErrorSecondColumn;
-            document.getElementById("miniGamePearsonCorrelation").innerHTML = response.pearsonCorrelation;
-            document.getElementById("miniGameTTest").innerHTML = response.tTest;
+            document.getElementById("miniGameMethodResult").innerHTML = response.miniGameMethodResult;
         } else {
             document.getElementById("miniGamePropertiesError").style.display = 'block';
         }
@@ -177,13 +177,14 @@ async function calculateMiniGame() {
     }
 }
 
-async function calculateMiniGameResult(selectedMiniGameName, miniGameFirstColumn, miniGameSecondColumn) {
+async function calculateMiniGameResult(selectedMiniGameName, miniGameFirstColumn, miniGameSecondColumn, selectedMiniGameMethod) {
     try {
         const response = await axios.post('api/statistics/calculateMiniGameResult', {
             params: {
                 selectedMiniGameName: selectedMiniGameName,
                 miniGameFirstColumn: miniGameFirstColumn,
                 miniGameSecondColumn: miniGameSecondColumn,
+                selectedMiniGameMethod: selectedMiniGameMethod,
             }
         });
         console.log(response);
@@ -196,7 +197,6 @@ async function calculateMiniGameResult(selectedMiniGameName, miniGameFirstColumn
         document.getElementById("miniGameSecondColumnM").innerHTML = '-';
         document.getElementById("miniGameSecondColumnSD").innerHTML = '-';
         document.getElementById("miniGameSecondColumnSE").innerHTML = '-';
-        document.getElementById("miniGamePearsonCorrelation").innerHTML = '-';
-        document.getElementById("miniGameTTest").innerHTML = '-';
+        document.getElementById("miniGameMethodResult").innerHTML = '-';
     }
 }

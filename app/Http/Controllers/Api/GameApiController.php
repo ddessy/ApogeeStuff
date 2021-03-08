@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Game;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class GameApiController extends Controller

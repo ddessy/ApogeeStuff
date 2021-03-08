@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\StatisticMethodsConstants;
+use App\Http\Constants\StatisticMethodsConstants;
 use App\Models\Game;
 use App\Models\MazeGameResult;
 use App\Models\PuzzleGamesResult;
@@ -21,10 +21,10 @@ class StatisticsController extends BaseController
         $miniGameColumnNames = array_filter($puzzleGameResultsColumnNames, function ($columnName) {
             return (strpos($columnName, 'id') === false && strpos($columnName, 'registered') === false && strpos($columnName, 'name') === false && strpos($columnName, 'grade') === false);
         });
+
         $methods = [
             StatisticMethodsConstants::CORRELATION => "Correlation",
-            StatisticMethodsConstants::STANRDARD_DEVIATION => "Standard Deviation",
-            StatisticMethodsConstants::STANDARD_ERROR => "Standard Error"
+            StatisticMethodsConstants::T_TEST => "T Test",
         ];
 
         return view('pages.statistics.statistics',
