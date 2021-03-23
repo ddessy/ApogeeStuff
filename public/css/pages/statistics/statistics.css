@@ -1,3 +1,7 @@
 .custom-padding {
     padding: 10px 0 0 10px;
 }
+
+.custom-margin {
+    padding: 0 10px 0 10px;
+}
