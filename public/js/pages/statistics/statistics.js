@@ -1,4 +1,51 @@
 $(document).ready(async function () {
+    $('#mazeGameMultiselect').multiselect(
+        {
+            buttonWidth: '100%',
+            buttonText: function(options) {
+                if (options.length == 0) {
+                    return 'Choose a property';
+                }
+                else if (options.length > 6) {
+                    return options.length + selected;
+                }
+                else {
+                    let selected = '';
+                    options.each(function() {
+                        selected += $(this).text() + ', ';
+                    });
+                    return selected.substr(0, selected.length -2);
+                }
+            },
+            onChange: function(option, checked) {
+                // Get selected options.
+                var selectedOptions = $('#mazeGameMultiselect option:selected');
+
+                if (selectedOptions.length >= 4) {
+                    // Disable all other checkboxes.
+                    var nonSelectedOptions = $('#mazeGameMultiselect option').filter(function() {
+                        return !$(this).is(':selected');
+                    });
+
+                    var dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
+                    nonSelectedOptions.each(function() {
+                        var input = $('input[value="' + $(this).val() + '"]');
+                        input.prop('disabled', true);
+                        input.parent('button').addClass('disabled');
+                    });
+                }
+                else {
+                    // Enable all checkboxes.
+                    var dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
+                    $('#mazeGameMultiselect option').each(function() {
+                        var input = $('input[value="' + $(this).val() + '"]');
+                        input.prop('disabled', false);
+                        input.parent('li').addClass('disabled');
+                    });
+                }
+            }
+        }
+    );
 });
 
 function filterMazeGameSecondSelectOptions() {

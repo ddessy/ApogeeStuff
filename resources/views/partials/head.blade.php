@@ -29,7 +29,7 @@
             }
         </style>
 
-
+        <link rel="stylesheet" href="assets/libraries/multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>
         <!-- Custom styles for this template -->
         <link href="/css/global.css" rel="stylesheet">
     @show

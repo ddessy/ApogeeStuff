@@ -28,6 +28,19 @@
 
         <div>
             <div style="display: inline-block; width: 210px">
+                <select id="mazeGameMultiselect" multiple="multiple">
+                    @foreach ($mazeGameColumnNames as $mazeGameColumnName)
+                        <option value="{{$mazeGameColumnName}}">{{$mazeGameColumnName}}</option>
+                    @endforeach
+                </select>
+                <div class="margin-right custom-padding">
+                    <h6>M: <span id="mazeGameFirstColumnM" style="color: dodgerblue">-</span></h6>
+                    <h6>SD: <span id="mazeGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
+                    <h6>SE: <span id="mazeGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
+                </div>
+            </div>
+
+            <div style="display: inline-block; width: 210px">
                 <div>
                     <select id="mazeGameFirstColumn" class="custom-select margin-right"
                             onchange="filterMazeGameSecondSelectOptions()">
@@ -61,7 +74,8 @@
                 </div>
             </div>
 
-            <button class="btn btn-success" style="vertical-align:top; margin-right: 50px" type="button" onclick="calculateMazeGame()">
+            <button class="btn btn-success" style="vertical-align:top; margin-right: 50px" type="button"
+                    onclick="calculateMazeGame()">
                 Add <span style="margin-bottom: 1px" data-feather="plus"></span>
             </button>
 
