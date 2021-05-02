@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-include 'UserRepository.php';
+include 'repositories/UserRepository.php';
 
 $userRepository = new UserRepository();
-    
+
 $email = $_POST['username'];
 $password = $_POST['password'];
-
+echo phpinfo();
 $userId = $userRepository->getUserByEmailAndPassword($email, $password);
 
 if (isset($_POST['login_check'])) {
@@ -26,6 +26,6 @@ if (isset($_POST['login_check'])) {
         header('location: quiz.php');
     } else {
         header('location: index.php');
-    } 
+    }
 }
 ?>
