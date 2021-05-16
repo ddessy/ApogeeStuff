@@ -2,6 +2,23 @@
     padding: 10px 0 0 10px;
 }
 
-.custom-margin {
-    padding: 0 10px 0 10px;
+.custom-margin-left-right {
+    margin: 0 10px 0 10px;
+}
+
+.custom-margin-bottom {
+    margin-bottom: 10px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.content-to-top {
+    vertical-align: top;
+}
+
+.custom-border {
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
 }

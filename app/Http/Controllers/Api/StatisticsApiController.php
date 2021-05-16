@@ -15,45 +15,40 @@ class StatisticsApiController extends Controller
     public function calculateMazeGameResult(Request $request)
     {
         $mazeGameId = $request->params['selectedMazeGameId'];
-        $firstColumn = MazeGameResult::select($request->params['mazeGameFirstColumn'])->where('maze_game_id', $mazeGameId)->pluck($request->params['mazeGameFirstColumn'])->all();
-        $secondColumn = MazeGameResult::select($request->params['mazeGameSecondColumn'])->where('maze_game_id', $mazeGameId)->pluck($request->params['mazeGameSecondColumn'])->all();
+        $selectedProperties = $request->params['selectedProperties'];
         $selectedMazeGameMethod = $request->params['selectedMazeGameMethod'];
-        $firstColumnCount = count($firstColumn);
-        $secondColumnCount = count($secondColumn);
+
+        $results = [];
+
+        for ($i = 0; $i < count($selectedProperties); $i++) {
+            $property = $selectedProperties[$i];
+            $propertyDataFromDb = MazeGameResult::select($property)->where('maze_game_id', $mazeGameId)->pluck($property)->all();
+            if (count($propertyDataFromDb) > 0) {
+                $average = round(array_sum($propertyDataFromDb) / count($propertyDataFromDb), 6);
+                $standardDeviation = round(StatisticMethods::standardDeviation($propertyDataFromDb), 6);
+                $standardError = round(StatisticMethods::standardError($standardDeviation, count($propertyDataFromDb)), 6);
+
+                $results[$selectedProperties[$i]] = [
+                    'average' => $average,
+                    'standardDeviation' => $standardDeviation,
+                    'standardError' => $standardError,
+                ];
+            }
+        }
+
         $methodResult = 0;
 
-        $averageFirstColumn = 0;
-        if ($firstColumnCount) {
-            $averageFirstColumn = array_sum($firstColumn) / $firstColumnCount;
-        }
-
-        $averageSecondColumn = 0;
-        if ($secondColumnCount) {
-            $averageSecondColumn = array_sum($secondColumn) / $secondColumnCount;
-        }
-
-        $standardDeviationFirstColumn = StatisticMethods::standardDeviation($firstColumn);
-        $standardDeviationSecondColumn = StatisticMethods::standardDeviation($secondColumn);
-
-        $standardErrorFirstColumn = StatisticMethods::standardError($standardDeviationFirstColumn, $firstColumnCount);
-        $standardErrorSecondColumn = StatisticMethods::standardError($standardDeviationSecondColumn, $secondColumnCount);
-
-        switch ($selectedMazeGameMethod) {
-            case StatisticMethodsConstants::CORRELATION:
-                $methodResult = StatisticMethods::correlation($firstColumn, $secondColumn);
-                break;
-            case StatisticMethodsConstants::T_TEST:
-                $methodResult = StatisticMethods::tTest($firstColumn, $secondColumn);
-                break;
-        }
+//        switch ($selectedMazeGameMethod) {
+//            case StatisticMethodsConstants::CORRELATION:
+//                $methodResult = StatisticMethods::correlation($firstColumn, $secondColumn);
+//                break;
+//            case StatisticMethodsConstants::T_TEST:
+//                $methodResult = StatisticMethods::tTest($firstColumn, $secondColumn);
+//                break;
+//        }
 
         $response = [
-            'averageFirstColumn' => round($averageFirstColumn, 6),
-            'averageSecondColumn' => round($averageSecondColumn, 6),
-            'standardDeviationFirstColumn' => round($standardDeviationFirstColumn, 6),
-            'standardDeviationSecondColumn' => round($standardDeviationSecondColumn, 6),
-            'standardErrorFirstColumn' => round($standardErrorFirstColumn, 6),
-            'standardErrorSecondColumn' => round($standardErrorSecondColumn, 6),
+            'propertiesResults' => $results,
             'mazeGameMethodResult' => round($methodResult, 6),
         ];
 

@@ -27,6 +27,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript" src="/assets/libraries/multiselect/dist/js/bootstrap-multiselect.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <script src="/js/global.js"></script>
 @show

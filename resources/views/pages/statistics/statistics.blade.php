@@ -27,60 +27,16 @@
         <hr style="border-top: 1px solid #dbdbdb; border-radius: 5px">
 
         <div>
-            <div style="display: inline-block; width: 210px">
-                <select id="mazeGameMultiselect" multiple="multiple">
-                    @foreach ($mazeGameColumnNames as $mazeGameColumnName)
-                        <option value="{{$mazeGameColumnName}}">{{$mazeGameColumnName}}</option>
-                    @endforeach
-                </select>
-                <div class="margin-right custom-padding">
-                    <h6>M: <span id="mazeGameFirstColumnM" style="color: dodgerblue">-</span></h6>
-                    <h6>SD: <span id="mazeGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
-                    <h6>SE: <span id="mazeGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
-                </div>
-            </div>
-
-            <div style="display: inline-block; width: 210px">
-                <div>
-                    <select id="mazeGameFirstColumn" class="custom-select margin-right"
-                            onchange="filterMazeGameSecondSelectOptions()">
-                        <option value="" selected>Choose a property</option>
+            <div class="inline-block content-to-top">
+                <div class="custom-margin-bottom" style="width: 240px">
+                    <select id="mazeGameMultiselect" multiple="multiple" class="custom-select margin-right">
                         @foreach ($mazeGameColumnNames as $mazeGameColumnName)
                             <option value="{{$mazeGameColumnName}}">{{$mazeGameColumnName}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="margin-right custom-padding">
-                    <h6>M: <span id="mazeGameFirstColumnM" style="color: dodgerblue">-</span></h6>
-                    <h6>SD: <span id="mazeGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
-                    <h6>SE: <span id="mazeGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
-                </div>
-            </div>
 
-            <div class="custom-margin" style="display: inline-block; width: 210px">
-                <div>
-                    <select id="mazeGameSecondColumn" class="custom-select margin-right"
-                            onchange="filterMazeGameFirstSelectOptions()">
-                        <option value="" selected>Choose a property</option>
-                        @foreach ($mazeGameColumnNames as $mazeGameColumnName)
-                            <option value="{{$mazeGameColumnName}}">{{$mazeGameColumnName}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="margin-right custom-padding">
-                    <h6>M: <span id="mazeGameSecondColumnM" style="color: dodgerblue">-</span></h6>
-                    <h6>SD: <span id="mazeGameSecondColumnSD" style="color: dodgerblue">-</span></h6>
-                    <h6>SE: <span id="mazeGameSecondColumnSE" style="color: dodgerblue">-</span></h6>
-                </div>
-            </div>
-
-            <button class="btn btn-success" style="vertical-align:top; margin-right: 50px" type="button"
-                    onclick="calculateMazeGame()">
-                Add <span style="margin-bottom: 1px" data-feather="plus"></span>
-            </button>
-
-            <div style="display: inline-block; vertical-align:top; width: 210px">
-                <div>
+                <div class="custom-margin-bottom" style="width: 240px">
                     <select id="mazeGameMethod" class="custom-select margin-right">
                         <option value="" selected>Choose a method</option>
                         @foreach ($methods as $method)
@@ -88,21 +44,32 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="custom-padding">
-                    <h6>Result: <span id="mazeGameMethodResult" style="color: dodgerblue">-</span></h6>
+
+                <div>
+                    <button class="btn btn-primary" style="width: 240px;" type="button" onclick="calculateMazeGame()">
+                        Calculate
+                    </button>
+                </div>
+
+                <div id="mazeGamePropertiesError" class="alert alert-danger"
+                     style="display: none; margin-top: 10px; width: 240px">
+                    <ul>
+                        <li>Please select a properties</li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-        <button class="btn btn-primary" style="margin-top: 30px" type="button" onclick="calculateMazeGame()">
-            Calculate
-        </button>
+            {{--Results--}}
+            <div class="inline-block content-to-top" style="margin-left: 100px">
+                <div class="custom-margin-bottom">
+                    <h6>Method result: <span id="mazeGameMethodResult" style="color: dodgerblue">-</span></h6>
+                </div>
 
-        <div id="mazeGamePropertiesError" class="alert alert-danger"
-             style="display: none; margin-top: 10px; width: 30%">
-            <ul>
-                <li>Please select all properties</li>
-            </ul>
+                <div>
+                    <h5>Properties results</h5>
+                </div>
+                <div id="containerPropertiesResults"></div>
+            </div>
         </div>
 
         {{--------------------------------------------------------------------------------------------------------------}}

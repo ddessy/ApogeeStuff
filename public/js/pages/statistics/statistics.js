@@ -2,42 +2,39 @@ $(document).ready(async function () {
     $('#mazeGameMultiselect').multiselect(
         {
             buttonWidth: '100%',
-            buttonText: function(options) {
-                if (options.length == 0) {
-                    return 'Choose a property';
-                }
-                else if (options.length > 6) {
+            buttonText: function (options) {
+                if (options.length === 0) {
+                    return 'Choose a properties';
+                } else if (options.length > 6) {
                     return options.length + selected;
-                }
-                else {
+                } else {
                     let selected = '';
-                    options.each(function() {
+                    options.each(function () {
                         selected += $(this).text() + ', ';
                     });
-                    return selected.substr(0, selected.length -2);
+                    return selected.substr(0, selected.length - 2);
                 }
             },
-            onChange: function(option, checked) {
+            onChange: function (option, checked) {
                 // Get selected options.
-                var selectedOptions = $('#mazeGameMultiselect option:selected');
+                let selectedOptions = $('#mazeGameMultiselect option:selected');
 
                 if (selectedOptions.length >= 4) {
                     // Disable all other checkboxes.
-                    var nonSelectedOptions = $('#mazeGameMultiselect option').filter(function() {
+                    let nonSelectedOptions = $('#mazeGameMultiselect option').filter(function () {
                         return !$(this).is(':selected');
                     });
 
-                    var dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
-                    nonSelectedOptions.each(function() {
+                    let dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
+                    nonSelectedOptions.each(function () {
                         var input = $('input[value="' + $(this).val() + '"]');
                         input.prop('disabled', true);
                         input.parent('button').addClass('disabled');
                     });
-                }
-                else {
+                } else {
                     // Enable all checkboxes.
-                    var dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
-                    $('#mazeGameMultiselect option').each(function() {
+                    let dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
+                    $('#mazeGameMultiselect option').each(function () {
                         var input = $('input[value="' + $(this).val() + '"]');
                         input.prop('disabled', false);
                         input.parent('li').addClass('disabled');
@@ -47,58 +44,6 @@ $(document).ready(async function () {
         }
     );
 });
-
-function filterMazeGameSecondSelectOptions() {
-    const selectedValue = document.getElementById("mazeGameFirstColumn").value;
-    const secondColumn = document.getElementById("mazeGameSecondColumn");
-
-    for (let i = 0; i < secondColumn.length; i++) {
-        if (secondColumn.options[i].value === selectedValue) {
-            secondColumn.options[i].style.display = 'none';
-        } else {
-            secondColumn.options[i].style.display = 'block';
-        }
-    }
-}
-
-function filterMazeGameFirstSelectOptions() {
-    const selectedValue = document.getElementById("mazeGameSecondColumn").value;
-    const firstColumn = document.getElementById("mazeGameFirstColumn");
-
-    for (let i = 0; i < firstColumn.length; i++) {
-        if (firstColumn.options[i].value === selectedValue) {
-            firstColumn.options[i].style.display = 'none';
-        } else {
-            firstColumn.options[i].style.display = 'block';
-        }
-    }
-}
-
-function filterMiniGameSecondSelectOptions() {
-    const selectedValue = document.getElementById("miniGameFirstColumn").value;
-    const secondColumn = document.getElementById("miniGameSecondColumn");
-
-    for (let i = 0; i < secondColumn.length; i++) {
-        if (secondColumn.options[i].value === selectedValue) {
-            secondColumn.options[i].style.display = 'none';
-        } else {
-            secondColumn.options[i].style.display = 'block';
-        }
-    }
-}
-
-function filterMiniGameFirstSelectOptions() {
-    const selectedValue = document.getElementById("miniGameSecondColumn").value;
-    const firstColumn = document.getElementById("miniGameFirstColumn");
-
-    for (let i = 0; i < firstColumn.length; i++) {
-        if (firstColumn.options[i].value === selectedValue) {
-            firstColumn.options[i].style.display = 'none';
-        } else {
-            firstColumn.options[i].style.display = 'block';
-        }
-    }
-}
 
 async function onSelectMazeGame() {
     const selectedMazeGameId = document.getElementById("selectMazeGames").value;
@@ -148,22 +93,59 @@ async function getMiniGames(gameId) {
 
 async function calculateMazeGame() {
     const selectedMazeGameId = document.getElementById("selectMazeGames").value;
-    const mazeGameFirstColumn = document.getElementById("mazeGameFirstColumn").value;
-    const mazeGameSecondColumn = document.getElementById("mazeGameSecondColumn").value;
     const selectedMazeGameMethod = document.getElementById("mazeGameMethod").value;
+    const selectedProperties = $('#mazeGameMultiselect').val();
 
     if (selectedMazeGameId) {
         document.getElementById("mazeGameError").style.display = 'none';
 
-        if (mazeGameFirstColumn && mazeGameSecondColumn) {
+        if (selectedProperties.length > 0) {
             document.getElementById("mazeGamePropertiesError").style.display = 'none';
-            let response = await calculateMazeGameResult(selectedMazeGameId, mazeGameFirstColumn, mazeGameSecondColumn, selectedMazeGameMethod);
-            document.getElementById("mazeGameFirstColumnM").innerHTML = response.averageFirstColumn;
-            document.getElementById("mazeGameFirstColumnSD").innerHTML = response.standardDeviationFirstColumn;
-            document.getElementById("mazeGameFirstColumnSE").innerHTML = response.standardErrorFirstColumn;
-            document.getElementById("mazeGameSecondColumnM").innerHTML = response.averageSecondColumn;
-            document.getElementById("mazeGameSecondColumnSD").innerHTML = response.standardDeviationSecondColumn;
-            document.getElementById("mazeGameSecondColumnSE").innerHTML = response.standardErrorSecondColumn;
+            let response = await calculateMazeGameResult(selectedMazeGameId, selectedMazeGameMethod, selectedProperties);
+            let propertyResultsDiv = $('#containerPropertiesResults');
+            while (propertyResultsDiv[0].firstChild) {
+                propertyResultsDiv[0].removeChild(propertyResultsDiv[0].firstChild);
+            }
+            for (let propertyResults in response.propertiesResults) {
+                propertyResultsDiv.append(`<div class="custom-margin-bottom custom-border" style="padding: 10px; display: flex; justify-content: space-between">
+                                                <div>
+                                                    <h6 style="color: dodgerblue">${propertyResults}</h6>
+                                                    <h6>M: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].average}</span></h6>
+                                                    <h6>SD: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].standardDeviation}</span></h6>
+                                                    <h6>SE: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].standardError}</span></h6>
+                                                </div>
+                                                <div>
+                                                    <div id="${propertyResults}" style="width:400px;height:400px;"></div>
+                                                </div>
+                                           </div>`)
+
+                let TESTER = document.getElementById(propertyResults);
+                var y0 = [];
+                var y1 = [];
+                for (var i = 0; i < 50; i++) {
+                    y0[i] = Math.random();
+                    y1[i] = Math.random() + 1;
+                }
+
+                var trace1 = {
+                    y: y0,
+                    type: 'box'
+                };
+
+                var trace2 = {
+                    y: y1,
+                    type: 'box'
+                };
+
+                var data = [trace1, trace2];
+
+                let layout = {
+                    paper_bgcolor: 'rgb(243, 243, 243)',
+                    plot_bgcolor: 'rgb(243, 243, 243)',
+                };
+
+                Plotly.newPlot(TESTER, data, layout);
+            }
             document.getElementById("mazeGameMethodResult").innerHTML = response.mazeGameMethodResult;
         } else {
             document.getElementById("mazeGamePropertiesError").style.display = 'block';
@@ -173,26 +155,19 @@ async function calculateMazeGame() {
     }
 }
 
-async function calculateMazeGameResult(selectedMazeGameId, mazeGameFirstColumn, mazeGameSecondColumn, selectedMazeGameMethod) {
+async function calculateMazeGameResult(selectedMazeGameId, selectedMazeGameMethod, selectedProperties) {
     try {
         const response = await axios.post('api/statistics/calculateMazeGameResult', {
             params: {
                 selectedMazeGameId: selectedMazeGameId,
-                mazeGameFirstColumn: mazeGameFirstColumn,
-                mazeGameSecondColumn: mazeGameSecondColumn,
                 selectedMazeGameMethod: selectedMazeGameMethod,
+                selectedProperties: selectedProperties,
             }
         });
-        console.log(response);
+        console.log(response, 'response maze game result');
         return response.data;
     } catch (error) {
         console.error(error);
-        document.getElementById("mazeGameFirstColumnM").innerHTML = '-';
-        document.getElementById("mazeGameFirstColumnSD").innerHTML = '-';
-        document.getElementById("mazeGameFirstColumnSE").innerHTML = '-';
-        document.getElementById("mazeGameSecondColumnM").innerHTML = '-';
-        document.getElementById("mazeGameSecondColumnSD").innerHTML = '-';
-        document.getElementById("mazeGameSecondColumnSE").innerHTML = '-';
         document.getElementById("mazeGameMethodResult").innerHTML = '-';
     }
 }
