@@ -20,7 +20,7 @@ $('document').ready(function () {
   });
 
   $('#profile-password').on('blur', function () {
-    validatePassword($("#profile-password").val());
+    validatePasswordEmail($("#profile-password").val());
   });
 });
 
@@ -78,11 +78,6 @@ function validatePassword(password) {
       document.getElementById('reg-password').style.border = "1px solid red";
     }
 
-    if (document.getElementById('profile-password') != null) {
-      document.getElementById(
-          'profile-password').style.border = "1px solid red";
-    }
-
     if (document.getElementById('error-password') != null) {
       document.getElementById('error-password').innerHTML = "Въведете парола";
     }
@@ -101,6 +96,34 @@ function validatePassword(password) {
 
   if (document.getElementById('error-password') != null) {
     document.getElementById('error-password').innerHTML = "";
+  }
+
+  return true;
+}
+
+function validatePasswordEmail(password) {
+  if (password.length < 1) {
+    if (document.getElementById('profile-password') != null) {
+      document.getElementById(
+          'profile-password').style.border = "1px solid red";
+    }
+
+    if (document.getElementById('error-password') != null) {
+      document.getElementById('error-password').innerHTML = "Въведете парола";
+    }
+
+    return false;
+  }
+
+  var email = document.forms["profileform"]["email"].value;
+
+  if (!checkIfUserExists(email, password)) {
+    return false;
+  }
+
+  if (document.getElementById('profile-password') != null) {
+    document.getElementById(
+        'profile-password').style.border = "1px solid green";
   }
 
   return true;
@@ -170,19 +193,20 @@ function validateEmail(email) {
 }
 
 function validateProfileForm() {
+
   var name = document.forms["profileform"]["fullname"].value;
   var email = document.forms["profileform"]["email"].value;
-  var password = document.forms["profileform"]["new_password"].value;
-  var passwordR = document.forms["profileform"]["new_password_r"].value;
-
-  result = true;
+  var password = document.forms["profileform"]["profile-password"].value;
+  var passwordNew = document.forms["profileform"]["new_password"].value;
+  var passwordNewR = document.forms["profileform"]["new_password_r"].value;
 
   resultValidatePassword = validatePassword(password);
-  //resultValidatePasswordR = validatePasswordR(password, passwordR);
+  resultValidatePasswordR = validatePasswordR(password, passwordR);
   resultValidateEmail = isEmailValid(email);
   resultValidateName = validateName(name);
 
-  return resultValidateEmail && resultValidateName && resultValidatePassword
+  return checkIfUserExists(email, password) && resultValidateEmail
+      && resultValidateName && resultValidatePassword
       && resultValidatePasswordR;
 }
 
@@ -191,6 +215,10 @@ function existUser() {
   var email = document.forms["loginform"]["username"].value;
   var password = document.forms["loginform"]["password"].value;
 
+  checkIfUserExists(email, password);
+}
+
+function checkIfUserExists(email, password) {
   var userData = new FormData();
   userData.append('login_check', '1');
   userData.append('username', email);
@@ -198,18 +226,23 @@ function existUser() {
 
   var xmlhttp = new XMLHttpRequest();
 
-  xmlhttp.open("POST", "/login", false);
-  xmlhttp.send(userData);
+  xmlhttp.open("POST", "/checkEmailPassword", false);
 
-  if (xmlhttp.status === 200) {
-    if (xmlhttp.responseText === "error") {
+  xmlhttp.onload = function () {
+    if (xmlhttp.status === 200) {
+      if (xmlhttp.responseText === "userexists") {
+        return true
+      } else {
+        document.getElementById(
+            'login-error').innerHTML = "Грешно въведено потребителско име или email";
+        return false;
+      }
+    } else {
       document.getElementById(
           'login-error').innerHTML = "Грешно въведено потребителско име или email";
       return false;
-    } else {
-      return true;
     }
-  }
-  ;
+  };
 
+  xmlhttp.send(userData);
 }

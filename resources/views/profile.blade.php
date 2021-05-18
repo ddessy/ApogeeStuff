@@ -14,6 +14,8 @@
                 <form id="profileform" class="form-horizontal" role="form" action="{{ route('home.editProfile') }}"
                       onsubmit="return validateProfileForm();" method="POST">
                     @csrf
+                    <div id="login-error"
+                         style="font-size: 85%;color: red; padding-bottom: 10px;margin-top: -10px;"></div>
                     <div class="labeltext">Име и фамилия:</div>
                     <div style="margin-bottom: 25px" class="long-inputs">
                         <input id="fullname" type="text" class="form-control" name="fullname"
@@ -22,7 +24,7 @@
                     </div>
                     <div class="labeltext">Email:</div>
                     <div style="margin-bottom: 25px" class="long-inputs">
-                        <input id="profile-username" type="text" class="form-control" name="email"
+                        <input disabled id="profile-username" type="text" class="form-control" name="email"
                                value="{{ $user->email }}" placeholder="email">
                         <span id="error-email" style="font-size: 85%;color: red;"></span>
                     </div>
@@ -34,13 +36,15 @@
                     </div>
                     <div class="labeltext">Нова парола:</div>
                     <div style="margin-bottom: 25px" class="long-inputs">
-                        <input id="profile-new-password" type="password" class="form-control" name="new_password"
+                        <input disabled id="profile-new-password" type="password" class="form-control"
+                               name="new_password"
                                placeholder="Нова парола">
                         <span id="error-new-password" style="font-size: 85%;color: red;"></span>
                     </div>
                     <div class="labeltext">Повторете новата парола:</div>
                     <div style="margin-bottom: 25px" class="long-inputs">
-                        <input id="profile-password-r" type="password" class="form-control" name="new_password_r"
+                        <input disabled id="profile-password-r" type="password" class="form-control"
+                               name="new_password_r"
                                placeholder="Повторете новата парола">
                         <span id="error-password-r" style="font-size: 85%;color: red;"></span>
                     </div>
@@ -53,15 +57,17 @@
                     <div style="margin-bottom: 25px" class="long-inputs">
                         <select id="gender" class="form-control" name="gender" {{ $user->gender }}>
                             <option value="1"
-                            @if ($user->gender == 1)
-                                selected
-                            @endif
-                            >Мъж</option>
+                                    @if ($user->gender == 1)
+                                    selected
+                                    @endif
+                            >Мъж
+                            </option>
                             <option value="2"
-                            @if ($user->gender == 2)
-                                selected
-                            @endif
-                            >Жена</option>
+                                    @if ($user->gender == 2)
+                                    selected
+                                    @endif
+                            >Жена
+                            </option>
                         </select>
                     </div>
                     <div class="labeltext">Успех:</div>
