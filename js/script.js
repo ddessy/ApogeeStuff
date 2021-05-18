@@ -150,10 +150,8 @@ function validateEmail(email) {
   var xmlhttp = new XMLHttpRequest();
 
   xmlhttp.open("GET", "/checkemail/" + email, true);
-  alert("Ok");
   xmlhttp.onload = function () {
     if (xmlhttp.status === 200) {
-      alert(xmlhttp.responseText);
       if (xmlhttp.responseText === "userexists") {
         document.getElementById('reg-username').style.border = "1px solid red";
         document.getElementById(
