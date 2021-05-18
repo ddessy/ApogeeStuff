@@ -7,6 +7,7 @@ use App\Models\PlayingStyle;
 use App\Models\QuizQuestion;
 use App\Models\QuizQuestionsAnswersGridEntry;
 use App\Models\QuizQuestionsAnswersTypeEntry;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class StyleCalculator
@@ -149,12 +150,15 @@ class StyleCalculator
             if (!is_array($value)) {
 
                 $qArray = explode('_', $key);
-                $answerGridIndex = $qArray[0] . "_" . $qArray[1];
 
-                if (count($qArray) == 3 && array_key_exists($answerGridIndex, $quizAnswerGridIds)) {
-                    // increment playing style
-                    $learningStyles[$quizAnswerGridIds[$answerGridIndex]] +=
-                        QuizQuestionsAnswersTypeEntry::where([["id", "=", $value]])->first()->answer_value;
+                if (count($qArray) > 1) {
+                    $answerGridIndex = $qArray[0] . "_" . $qArray[1];
+
+                    if (count($qArray) == 3 && array_key_exists($answerGridIndex, $quizAnswerGridIds)) {
+                        // increment playing style
+                        $learningStyles[$quizAnswerGridIds[$answerGridIndex]] +=
+                            QuizQuestionsAnswersTypeEntry::where([["id", "=", $value]])->first()->answer_value;
+                    }
                 }
             }
         }
