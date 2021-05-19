@@ -5,7 +5,6 @@
         <div class="panel panel-info" style="border-color: rgb(63, 81, 181);">
             <div class="panel-heading">
                 <div class="panel-title">Регистрация в APOGEE</div>
-
             </div>
 
             <div style="padding-top:30px" class="panel-body">

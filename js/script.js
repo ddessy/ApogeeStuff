@@ -140,7 +140,6 @@ function validateName(name) {
   document.getElementById('fullname').style.border = "1px solid green";
   document.getElementById('error-name').innerHTML = "";
   return true;
-
 }
 
 function isEmailValid(email) {
@@ -201,13 +200,12 @@ function validateProfileForm() {
   var passwordNewR = document.forms["profileform"]["new_password_r"].value;
 
   resultValidatePassword = validatePassword(password);
-  resultValidatePasswordR = validatePasswordR(password, passwordR);
+  // resultValidatePasswordR = validatePasswordR(password, passwordR);
   resultValidateEmail = isEmailValid(email);
   resultValidateName = validateName(name);
 
   return checkIfUserExists(email, password) && resultValidateEmail
-      && resultValidateName && resultValidatePassword
-      && resultValidatePasswordR;
+      && resultValidateName && resultValidatePassword;
 }
 
 function existUser() {
