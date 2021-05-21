@@ -22,10 +22,7 @@ class StatisticsController extends BaseController
             return (strpos($columnName, 'id') === false && strpos($columnName, 'registered') === false && strpos($columnName, 'name') === false && strpos($columnName, 'grade') === false);
         });
 
-        $methods = [
-            StatisticMethodsConstants::CORRELATION => "Correlation",
-            StatisticMethodsConstants::T_TEST => "T Test",
-        ];
+        $methods = StatisticMethodsConstants::METHODS_ARRAY;
 
         return view('pages.statistics.statistics',
             [

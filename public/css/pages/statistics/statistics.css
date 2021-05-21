@@ -10,6 +10,10 @@
     margin-bottom: 10px;
 }
 
+.custom-margin-right {
+    margin-right: 10px;
+}
+
 .inline-block {
     display: inline-block;
 }

@@ -4,7 +4,7 @@ $(document).ready(async function () {
             buttonWidth: '100%',
             buttonText: function (options) {
                 if (options.length === 0) {
-                    return 'Choose a properties';
+                    return 'Select a properties';
                 } else if (options.length > 6) {
                     return options.length + selected;
                 } else {
@@ -93,6 +93,7 @@ async function getMiniGames(gameId) {
 
 async function calculateMazeGame() {
     const selectedMazeGameId = document.getElementById("selectMazeGames").value;
+    const selectedMazeGameMethodElement = document.getElementById("mazeGameMethod");
     const selectedMazeGameMethod = document.getElementById("mazeGameMethod").value;
     const selectedProperties = $('#mazeGameMultiselect').val();
 
@@ -101,43 +102,42 @@ async function calculateMazeGame() {
 
         if (selectedProperties.length > 0) {
             document.getElementById("mazeGamePropertiesError").style.display = 'none';
+            if (!selectedMazeGameMethod) {
+                document.getElementById("mazeGameMethodError").style.display = 'block';
+                return;
+            }
+            document.getElementById("mazeGameMethodError").style.display = 'none';
+            document.getElementById("mazeGameMethodResultsError").style.display = 'none';
             let response = await calculateMazeGameResult(selectedMazeGameId, selectedMazeGameMethod, selectedProperties);
+
             let propertyResultsDiv = $('#containerPropertiesResults');
             while (propertyResultsDiv[0].firstChild) {
                 propertyResultsDiv[0].removeChild(propertyResultsDiv[0].firstChild);
             }
             for (let propertyResults in response.propertiesResults) {
-                propertyResultsDiv.append(`<div class="custom-margin-bottom custom-border" style="padding: 10px; display: flex; justify-content: space-between">
+                propertyResultsDiv.append(`<div class="custom-margin-bottom  custom-border" style="padding: 10px; justify-content: space-between">
                                                 <div>
-                                                    <h6 style="color: dodgerblue">${propertyResults}</h6>
-                                                    <h6>M: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].average}</span></h6>
-                                                    <h6>SD: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].standardDeviation}</span></h6>
-                                                    <h6>SE: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].standardError}</span></h6>
+                                                    <div>
+                                                        <h5>${propertyResults}</h5>
+                                                        <h6>n: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].data.length}</span></h6>
+                                                        <h6>M: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].average}</span></h6>
+                                                        <h6>SD: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].standardDeviation}</span></h6>
+                                                        <h6>SE: <span style="color: dodgerblue">${response.propertiesResults[propertyResults].standardError}</span></h6>
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <div id="${propertyResults}" style="width:400px;height:400px;"></div>
                                                 </div>
-                                           </div>`)
+                                           </div>`);
 
                 let TESTER = document.getElementById(propertyResults);
-                var y0 = [];
-                var y1 = [];
-                for (var i = 0; i < 50; i++) {
-                    y0[i] = Math.random();
-                    y1[i] = Math.random() + 1;
-                }
 
-                var trace1 = {
-                    y: y0,
+                let trace1 = {
+                    y: response.propertiesResults[propertyResults].data,
                     type: 'box'
                 };
 
-                var trace2 = {
-                    y: y1,
-                    type: 'box'
-                };
-
-                var data = [trace1, trace2];
+                let data = [trace1];
 
                 let layout = {
                     paper_bgcolor: 'rgb(243, 243, 243)',
@@ -146,7 +146,22 @@ async function calculateMazeGame() {
 
                 Plotly.newPlot(TESTER, data, layout);
             }
-            document.getElementById("mazeGameMethodResult").innerHTML = response.mazeGameMethodResult;
+
+            let methodResultsDiv = $('#mazeGameMethodResults');
+            while (methodResultsDiv[0].firstChild) {
+                methodResultsDiv[0].removeChild(methodResultsDiv[0].firstChild);
+            }
+            methodResultsDiv.append(`<h5 class="custom-margin-bottom">${selectedMazeGameMethodElement.options[selectedMazeGameMethodElement.selectedIndex].text} results:</h5>`);
+            if (response.mazeGameMethodResults.length === 0) {
+                document.getElementById("mazeGameMethodResultsError").style.display = 'block';
+                return;
+            }
+            for (let combination in response.mazeGameMethodResults) {
+                methodResultsDiv.append(`<div class="custom-margin-bottom  custom-border" style="padding: 10px; justify-content: space-between">
+                                                <span class="inline-block" style="font-size: 16px">${combination}:</span>
+                                                <h6 class="inline-block"><span style="color: dodgerblue">${response.mazeGameMethodResults[combination]}</span></h6>
+                                           </div>`);
+            }
         } else {
             document.getElementById("mazeGamePropertiesError").style.display = 'block';
         }
@@ -168,7 +183,14 @@ async function calculateMazeGameResult(selectedMazeGameId, selectedMazeGameMetho
         return response.data;
     } catch (error) {
         console.error(error);
-        document.getElementById("mazeGameMethodResult").innerHTML = '-';
+        let propertyResultsDiv = $('#containerPropertiesResults');
+        while (propertyResultsDiv[0].firstChild) {
+            propertyResultsDiv[0].removeChild(propertyResultsDiv[0].firstChild);
+        }
+        let methodResultsDiv = $('#mazeGameMethodResults');
+        while (methodResultsDiv[0].firstChild) {
+            methodResultsDiv[0].removeChild(methodResultsDiv[0].firstChild);
+        }
     }
 }
 

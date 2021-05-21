@@ -11,7 +11,7 @@
         <div style="margin-bottom: 30px">
             <select id="selectMazeGames" class="custom-select margin-right" style="width: 30%"
                     onchange="onSelectMazeGame()">
-                <option value="" selected>Choose a maze-game</option>
+                <option value="" selected>Select a maze-game</option>
                 @foreach ($mazeGames as $mazeGame)
                     <option value="{{$mazeGame->id}}">{{$mazeGame->game_name}}</option>
                 @endforeach
@@ -19,7 +19,7 @@
 
             <div id="mazeGameError" class="alert alert-danger" style="display: none; margin-top: 10px; width: 30%">
                 <ul>
-                    <li>Please choose a maze-game</li>
+                    <li>Please select a maze-game</li>
                 </ul>
             </div>
         </div>
@@ -38,7 +38,7 @@
 
                 <div class="custom-margin-bottom" style="width: 240px">
                     <select id="mazeGameMethod" class="custom-select margin-right">
-                        <option value="" selected>Choose a method</option>
+                        <option value="" selected>Select a method</option>
                         @foreach ($methods as $method)
                             <option value="{{array_search($method, $methods)}}">{{$method}}</option>
                         @endforeach
@@ -57,18 +57,30 @@
                         <li>Please select a properties</li>
                     </ul>
                 </div>
+
+                <div id="mazeGameMethodError" class="alert alert-danger"
+                     style="display: none; margin-top: 10px; width: 240px">
+                    <ul>
+                        <li>Please select a method</li>
+                    </ul>
+                </div>
             </div>
 
             {{--Results--}}
-            <div class="inline-block content-to-top" style="margin-left: 100px">
-                <div class="custom-margin-bottom">
-                    <h6>Method result: <span id="mazeGameMethodResult" style="color: dodgerblue">-</span></h6>
+            <div class="inline-block content-to-top" style="margin-left: 50px">
+                <div class="custom-margin-right inline-block content-to-top">
+                    <div id="containerPropertiesResults"></div>
                 </div>
 
-                <div>
-                    <h5>Properties results</h5>
+                <div class="inline-block content-to-top">
+                    <div id="mazeGameMethodResults"></div>
+                    <div id="mazeGameMethodResultsError" class="alert alert-warning"
+                         style="display: none; margin-top: 10px; width: 340px">
+                        <ul>
+                            <li>To use this method, please select more properties</li>
+                        </ul>
+                    </div>
                 </div>
-                <div id="containerPropertiesResults"></div>
             </div>
         </div>
 
