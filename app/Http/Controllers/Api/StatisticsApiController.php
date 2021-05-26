@@ -24,28 +24,20 @@ class StatisticsApiController extends Controller
             $property = $selectedProperties[$i];
             $propertyDataFromDb = MazeGameResult::select($property)->where('maze_game_id', $mazeGameId)->pluck($property)->all();
             if (count($propertyDataFromDb) > 0) {
-                $average = round(array_sum($propertyDataFromDb) / count($propertyDataFromDb), 6);
-                $standardDeviation = round(StatisticMethods::standardDeviation($propertyDataFromDb), 6);
-                $standardError = round(StatisticMethods::standardError($standardDeviation, count($propertyDataFromDb)), 6);
+                $average = array_sum($propertyDataFromDb) / count($propertyDataFromDb);
+                $standardDeviation = StatisticMethods::standardDeviation($propertyDataFromDb);
+                $standardError = StatisticMethods::standardError($standardDeviation, count($propertyDataFromDb));
 
                 $propertiesResults[$property] = [
-                    'average' => $average,
-                    'standardDeviation' => $standardDeviation,
-                    'standardError' => $standardError,
+                    'average' => round($average, 6),
+                    'standardDeviation' => round($standardDeviation, 6),
+                    'standardError' => round($standardError, 6),
                     'data' => $propertyDataFromDb,
                 ];
             }
         }
 
         $combinations = $this->getAllCombinations($selectedProperties);
-        [
-            ['a', 'b'],
-            ['a', 'c'],
-            ['b', 'c'],
-            ['a', 'b', 'c'],
-            ['a'],
-            ['b']
-        ];
         switch ($selectedMazeGameMethod) {
             case StatisticMethodsConstants::CORRELATION:
                 foreach ($combinations as $combination) {
@@ -61,7 +53,7 @@ class StatisticsApiController extends Controller
                     if (count($combination) == 2) {
                         $data1 = $propertiesResults[$combination[0]]['data'];
                         $data2 = $propertiesResults[$combination[1]]['data'];
-                        $mazeGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::tTest($data1, $data2), 6);
+                        $mazeGameMethodResults[join(" / ", $combination)] = StatisticMethods::tTest($data1, $data2);
                     }
                 }
                 break;
@@ -71,7 +63,7 @@ class StatisticsApiController extends Controller
                         $data1 = $propertiesResults[$combination[0]]['data'];
                         $data2 = $propertiesResults[$combination[1]]['data'];
                         $data3 = $propertiesResults[$combination[2]]['data'];
-                        $mazeGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::anovaOneWay($data1, $data2, $data3), 6);
+                        $mazeGameMethodResults[join(" / ", $combination)] = StatisticMethods::anovaOneWay($data1, $data2, $data3);
                     }
                 }
                 break;

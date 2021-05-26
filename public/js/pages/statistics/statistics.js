@@ -15,32 +15,6 @@ $(document).ready(async function () {
                     return selected.substr(0, selected.length - 2);
                 }
             },
-            onChange: function (option, checked) {
-                // Get selected options.
-                let selectedOptions = $('#mazeGameMultiselect option:selected');
-
-                if (selectedOptions.length >= 4) {
-                    // Disable all other checkboxes.
-                    let nonSelectedOptions = $('#mazeGameMultiselect option').filter(function () {
-                        return !$(this).is(':selected');
-                    });
-
-                    let dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
-                    nonSelectedOptions.each(function () {
-                        var input = $('input[value="' + $(this).val() + '"]');
-                        input.prop('disabled', true);
-                        input.parent('button').addClass('disabled');
-                    });
-                } else {
-                    // Enable all checkboxes.
-                    let dropdown = $('#mazeGameMultiselect').siblings('.multiselect-container');
-                    $('#mazeGameMultiselect option').each(function () {
-                        var input = $('input[value="' + $(this).val() + '"]');
-                        input.prop('disabled', false);
-                        input.parent('li').addClass('disabled');
-                    });
-                }
-            }
         }
     );
 });
@@ -158,8 +132,8 @@ async function calculateMazeGame() {
             }
             for (let combination in response.mazeGameMethodResults) {
                 methodResultsDiv.append(`<div class="custom-margin-bottom  custom-border" style="padding: 10px; justify-content: space-between">
-                                                <span class="inline-block" style="font-size: 16px">${combination}:</span>
-                                                <h6 class="inline-block"><span style="color: dodgerblue">${response.mazeGameMethodResults[combination]}</span></h6>
+                                                <span style="font-size: 16px">${combination}</span>
+                                                <h6><span style="color: dodgerblue">${response.mazeGameMethodResults[combination]}</span></h6>
                                            </div>`);
             }
         } else {

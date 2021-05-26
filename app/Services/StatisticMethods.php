@@ -4,6 +4,8 @@
 namespace App\Services;
 
 use MathPHP\Statistics\ANOVA;
+use MathPHP\Statistics\Correlation;
+use MathPHP\Statistics\Descriptive;
 use MathPHP\Statistics\EffectSize;
 use MathPHP\Statistics\Significance;
 
@@ -12,7 +14,7 @@ class StatisticMethods
 {
     public static function standardDeviation($data1): float
     {
-        return stats_standard_deviation($data1, true);
+        return Descriptive::standardDeviation($data1);
     }
 
     public static function standardError($standardDeviationValue, $countSquared): float
@@ -22,17 +24,27 @@ class StatisticMethods
 
     public static function correlation($data1, $data2): float
     {
-        return stats_stat_correlation($data1, $data2);
+        return Correlation::sampleCorrelationCoefficient($data1, $data2);
     }
 
-    public static function tTest($data1, $data2): float
+    public static function tTest($data1, $data2): string
     {
-        return Significance::tTestTwoSample($data1, $data2)['p1'];
+        $result = Significance::tTestTwoSample($data1, $data2);
+        return 'P1: ' . round($result['p1'], 6) .
+            ' <br>' .
+            'P2: ' . round($result['p2'], 6) .
+            ' <br>' .
+            'T Score: ' . round($result['t'], 6) .
+            ' <br>' .
+            'DF: ' . round($result['df'], 6);
     }
 
-    public static function anovaOneWay($data1, $data2, $data3): float
+    public static function anovaOneWay($data1, $data2, $data3): string
     {
-        return ANOVA::oneWay($data1, $data2, $data3)['ANOVA']['treatment']['P'];
+        $result = ANOVA::oneWay($data1, $data2, $data3)['ANOVA']['treatment'];
+        return 'F: ' . round($result['F'], 6) .
+            ' <br> ' .
+            'P: ' . round($result['P'], 6);
     }
 
     public static function effectSizeCohensD($data1, $data2): float
@@ -44,7 +56,8 @@ class StatisticMethods
         return EffectSize::cohensD($data1M, $data2M, $data1SD, $data2SD);
     }
 
-    public static function testMethod() {
+    public static function testMethod()
+    {
         return 1;
     }
 }
