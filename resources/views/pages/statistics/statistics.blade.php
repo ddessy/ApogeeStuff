@@ -67,7 +67,7 @@
             </div>
 
             {{--Results--}}
-            <div class="inline-block content-to-top" style="margin-left: 50px">
+            <div class="content-to-top results">
                 <div class="custom-margin-right inline-block content-to-top">
                     <div id="containerMazePropertiesResults"></div>
                 </div>
@@ -143,7 +143,7 @@
             </div>
 
             {{--Results--}}
-            <div class="inline-block content-to-top" style="margin-left: 50px">
+            <div class="content-to-top results">
                 <div class="custom-margin-right inline-block content-to-top">
                     <div id="containerMiniPropertiesResults"></div>
                 </div>
