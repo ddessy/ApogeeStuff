@@ -188,10 +188,6 @@ async function getMazeGameResult(selectedMazeGameId, selectedMazeGameMethod, sel
 }
 
 
-
-
-
-
 async function calculateMiniGame() {
     const selectedMiniGameName = document.getElementById("selectMiniGames").value;
     const selectedMiniGameMethodElement = document.getElementById("miniGameMethod");
