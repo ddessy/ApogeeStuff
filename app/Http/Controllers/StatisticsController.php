@@ -14,7 +14,7 @@ class StatisticsController extends BaseController
     {
         $games = Game::all();
         $mazeGameResultsColumnNames = array_keys(MazeGameResult::first()->getAttributes());
-        $gameColumnNames = array_filter($mazeGameResultsColumnNames, function ($columnName) {
+        $mazeGameColumnNames = array_filter($mazeGameResultsColumnNames, function ($columnName) {
             return (strpos($columnName, 'id') === false && strpos($columnName, 'registered') === false);
         });
         $puzzleGameResultsColumnNames = array_keys(PuzzleGamesResult::first()->getAttributes());
@@ -27,7 +27,7 @@ class StatisticsController extends BaseController
         return view('pages.statistics.statistics',
             [
                 'mazeGames' => $games,
-                'mazeGameColumnNames' => $gameColumnNames,
+                'mazeGameColumnNames' => $mazeGameColumnNames,
                 'miniGameColumnNames' => $miniGameColumnNames,
                 'methods' => $methods
             ]

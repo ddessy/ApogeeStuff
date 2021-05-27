@@ -69,7 +69,7 @@
             {{--Results--}}
             <div class="inline-block content-to-top" style="margin-left: 50px">
                 <div class="custom-margin-right inline-block content-to-top">
-                    <div id="containerPropertiesResults"></div>
+                    <div id="containerMazePropertiesResults"></div>
                 </div>
 
                 <div class="inline-block content-to-top">
@@ -102,53 +102,61 @@
 
         <hr style="border-top: 1px solid #dbdbdb; border-radius: 5px">
 
-        <select id="miniGameFirstColumn" class="custom-select margin-right" style="width: 15%"
-                onchange="filterMiniGameSecondSelectOptions()">
-            <option value="" selected>Choose a property</option>
-            @foreach ($miniGameColumnNames as $miniGameColumnName)
-                <option value="{{$miniGameColumnName}}">{{$miniGameColumnName}}</option>
-            @endforeach
-        </select>
+        <div>
+            <div class="inline-block content-to-top">
+                <div class="custom-margin-bottom" style="width: 240px">
+                    <select id="miniGameMultiselect" multiple="multiple" class="custom-select margin-right">
+                        @foreach ($miniGameColumnNames as $miniGameColumnName)
+                            <option value="{{$miniGameColumnName}}">{{$miniGameColumnName}}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-        <select id="miniGameSecondColumn" class="custom-select margin-right" style="width: 15%"
-                onchange="filterMiniGameFirstSelectOptions()">
-            <option value="" selected>Choose a property</option>
-            @foreach ($miniGameColumnNames as $miniGameColumnName)
-                <option value="{{$miniGameColumnName}}">{{$miniGameColumnName}}</option>
-            @endforeach
-        </select>
+                <div class="custom-margin-bottom" style="width: 240px">
+                    <select id="miniGameMethod" class="custom-select margin-right">
+                        <option value="" selected>Select a method</option>
+                        @foreach ($methods as $method)
+                            <option value="{{array_search($method, $methods)}}">{{$method}}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-        <select id="miniGameMethod" class="custom-select margin-right" style="width: 15%">
-            <option value="" selected>Choose a method</option>
-            @foreach ($methods as $method)
-                <option value="{{array_search($method, $methods)}}">{{$method}}</option>
-            @endforeach
-        </select>
+                <div>
+                    <button class="btn btn-primary" style="width: 240px;" type="button" onclick="calculateMiniGame()">
+                        Calculate
+                    </button>
+                </div>
 
-        <button class="btn btn-primary" type="button" onclick="calculateMiniGame()">
-            Calculate
-        </button>
+                <div id="miniGamePropertiesError" class="alert alert-danger"
+                     style="display: none; margin-top: 10px; width: 240px">
+                    <ul>
+                        <li>Please select a properties</li>
+                    </ul>
+                </div>
 
-        <div id="miniGamePropertiesError" class="alert alert-danger"
-             style="display: none; margin-top: 10px; width: 30%">
-            <ul>
-                <li>Please select all properties</li>
-            </ul>
-        </div>
-
-        <div style="position: relative">
-            <div class="margin-right custom-padding" style="display: inline-block; width: 15%">
-                <h6>M: <span id="miniGameFirstColumnM" style="color: dodgerblue">-</span></h6>
-                <h6>SD: <span id="miniGameFirstColumnSD" style="color: dodgerblue">-</span></h6>
-                <h6>SE: <span id="miniGameFirstColumnSE" style="color: dodgerblue">-</span></h6>
+                <div id="miniGameMethodError" class="alert alert-danger"
+                     style="display: none; margin-top: 10px; width: 240px">
+                    <ul>
+                        <li>Please select a method</li>
+                    </ul>
+                </div>
             </div>
-            <div class="margin-right custom-padding" style="display: inline-block; width: 15%">
-                <h6>M: <span id="miniGameSecondColumnM" style="color: dodgerblue">-</span></h6>
-                <h6>SD: <span id="miniGameSecondColumnSD" style="color: dodgerblue">-</span></h6>
-                <h6>SE: <span id="miniGameSecondColumnSE" style="color: dodgerblue">-</span></h6>
-            </div>
-            <div class="custom-padding" style="position: absolute; display: inline-block; width: 15%">
-                <h6>Result: <span id="miniGameMethodResult" style="color: dodgerblue">-</span></h6>
+
+            {{--Results--}}
+            <div class="inline-block content-to-top" style="margin-left: 50px">
+                <div class="custom-margin-right inline-block content-to-top">
+                    <div id="containerMiniPropertiesResults"></div>
+                </div>
+
+                <div class="inline-block content-to-top">
+                    <div id="miniGameMethodResults"></div>
+                    <div id="miniGameMethodResultsError" class="alert alert-warning"
+                         style="display: none; margin-top: 10px; width: 340px">
+                        <ul>
+                            <li>To use this method, please select more properties</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
