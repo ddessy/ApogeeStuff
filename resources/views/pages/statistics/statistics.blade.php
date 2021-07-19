@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Analytics')
+@section('title', 'Statistics')
 
 @section('content')
     <div style="margin-top: 30px; padding-bottom: 100px">
@@ -86,7 +86,7 @@
 
         {{--------------------------------------------------------------------------------------------------------------}}
 
-        <h4 style="margin: 60px 0 30px 0">Hall / Mini-game</h4>
+        <h4 style="margin: 100px 0 30px 0">Hall / Mini-game</h4>
 
         <div style="margin-bottom: 30px">
             <select id="selectMiniGames" class="custom-select margin-right" style="width: 30%" name="gameId">

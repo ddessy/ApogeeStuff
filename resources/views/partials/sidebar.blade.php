@@ -4,7 +4,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">
                     <span data-feather="home"></span>
-                    Dashboard <span class="sr-only">(current)</span>
+                    Home <span class="sr-only">(current)</span>
                 </a>
             </li>
             <li class="nav-item">
