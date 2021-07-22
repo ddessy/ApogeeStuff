@@ -32,13 +32,15 @@ Route::get('/login', [HomeController::class, 'showLogin'])->name('home.showLogin
 
 Route::post('/login', [HomeController::class, 'doLogin'])->name('home.doLogin');
 
+Route::post('/checkEmailPassword', [HomeController::class, 'checkEmailPassword'])->name('home.checkEmailPassword');
+
 Route::get('/logout', [HomeController::class, 'doLogout'])->name('home.doLogout');
 
 Route::get('/registration', [HomeController::class, 'showRegistration'])->name('home.showRegistration');
 
 Route::post('/registration', [HomeController::class, 'doRegistration'])->name('home.doRegistration');
 
-Route::get('/checkemail/{email}', [HomeController::class, 'checkEmail']);
+Route::get('/checkemail/{email}', [HomeController::class, 'checkEmail'])->name('home.checkEmail');
 
 Route::get('/profile', [HomeController::class, 'showProfile'])->name('home.showProfile')->middleware('checkAuth');
 

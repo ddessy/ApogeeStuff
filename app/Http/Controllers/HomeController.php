@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\MessageEnum;
 use App\Models\Status;
 use App\Models\User;
+use App\Enum\MessageEnum;
+use http\Client\Request;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -58,10 +61,10 @@ class HomeController extends Controller
         $password = md5(request('password'));
         $user =
             User::where([
-                ["user_name", "=", request('username')],
-                ["password", "=", $password],
-                ["status", "=", Status::active]
-            ])->first();
+                    ["user_name", "=", request('username')],
+                    ["password", "=", $password],
+                    ["status", "=", Status::active]
+                ])->first();
         //Log::debug(dd(DB::getQueryLog()));
 
         if ($user != null) {
@@ -86,10 +89,10 @@ class HomeController extends Controller
         $password = md5(request('password'));
         $user =
             User::where([
-                ["user_name", "=", request('username')],
-                ["password", "=", $password],
-                ["status", "=", Status::active]
-            ])->first();
+                    ["user_name", "=", request('username')],
+                    ["password", "=", $password],
+                    ["status", "=", Status::active]
+                ])->first();
         //Log::debug(dd(DB::getQueryLog()));
 
         if ($user != null) {
@@ -135,15 +138,15 @@ class HomeController extends Controller
     {
         $user = User::where('email', '=', $email)->first();
 
-        if ($user != null) {
+        if ($user != null)
+        {
             return MessageEnum::UserExists;
         }
 
         return MessageEnum::UserDoesNotExist;
     }
 
-    public function doLogout()
-    {
+    public function doLogout() {
         session(['userId' => null]);
 
         return redirect()->route('home.showLogin');

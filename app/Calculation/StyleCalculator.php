@@ -7,7 +7,6 @@ use App\Models\PlayingStyle;
 use App\Models\QuizQuestion;
 use App\Models\QuizQuestionsAnswersGridEntry;
 use App\Models\QuizQuestionsAnswersTypeEntry;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class StyleCalculator
