@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/', [QuizController::class, 'listQuizzes'])->name('quiz.listQuizzes')->middleware('checkAuth');
 
 // TODO: add middleware to all
 
