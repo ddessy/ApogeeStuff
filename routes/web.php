@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ResultsController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,3 +45,14 @@ Route::get('/checkemail/{email}', [HomeController::class, 'checkEmail'])->name('
 Route::get('/profile', [HomeController::class, 'showProfile'])->name('home.showProfile')->middleware('checkAuth');
 
 Route::post('/profile', [HomeController::class, 'editProfile'])->name('home.editProfile')->middleware('checkAuth');
+
+// Results and statistics
+
+Route::get('/view-results', [ResultsController::class, 'viewResultsPage'])->name('results.viewResults')->middleware('checkAuth');
+
+Route::get('/view-results/game-results', [ResultsController::class, 'gameResultsPage'])->name('results.gameResults')->middleware('checkAuth');
+
+Route::post('/view-results/getMiniGameResults', [ResultsController::class, 'getMiniGameResults'])->name('results.getMiniGameResults')->middleware('checkAuth');
+Route::get('/view-results/mini-game-results', [ResultsController::class, 'miniGameResultsPage'])->name('results.miniGameResults')->middleware('checkAuth');
+
+Route::get('/statistics', [StatisticsController::class, 'statisticsPage'])->name('statistics.statistics')->middleware('checkAuth');

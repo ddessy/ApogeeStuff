@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\GameApiController;
+use App\Http\Controllers\Api\MiniGameApiController;
+use App\Http\Controllers\Api\StatisticsApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,5 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//GET
+Route::get('games', [GameApiController::class, 'getGames']);
+Route::get('miniGames/{gameId}', [MiniGameApiController::class, 'getMiniGames']);
+
+//POST
+Route::post('statistics/calculateMazeGameResult', [StatisticsApiController::class, 'calculateMazeGameResult']);
+Route::post('statistics/calculateMiniGameResult', [StatisticsApiController::class, 'calculateMiniGameResult']);
 
 
