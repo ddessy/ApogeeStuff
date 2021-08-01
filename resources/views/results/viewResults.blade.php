@@ -3,7 +3,7 @@
 @section('title', 'View Results')
 
 @section('content')
-    <div id="quizessbox" style="margin-top:50px;" class="mainbox col-md-12 col-sm-12">
+    <div style="margin-top:50px;" class="mainbox col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info" style="border-color: rgb(63, 81, 181);">
             <div class="panel-heading">
                 <div class="panel-title">Резултати игри</div>

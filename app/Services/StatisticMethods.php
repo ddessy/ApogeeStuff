@@ -10,6 +10,7 @@ use MathPHP\Statistics\EffectSize;
 use MathPHP\Statistics\Significance;
 
 
+//Add new methods here
 class StatisticMethods
 {
     public static function standardDeviation($data1): float
@@ -54,10 +55,5 @@ class StatisticMethods
         $data1SD = self::standardDeviation($data1);
         $data2SD = self::standardDeviation($data2);
         return EffectSize::cohensD($data1M, $data2M, $data1SD, $data2SD);
-    }
-
-    public static function testMethod()
-    {
-        return 1;
     }
 }

@@ -14,9 +14,9 @@
 
     <script type="text/javascript" src="/resources/libraries/multiselect/dist/js/bootstrap-multiselect.js"></script>
     <script src="{{ asset('/js/script.js') }}" defer></script>
-    @yield('AdditionalJs')
+@yield('AdditionalJs')
 
-    <!-- Latest compiled and minified CSS -->
+<!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/resources/libraries/multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
@@ -24,17 +24,19 @@
 </head>
 
 <body>
-    <div class="container">
-        @if (session()->get('userId') != null)
+<div>
+    @if (session()->get('userId') != null)
         <ul class="nav">
             <li class="navLi"><a href="{{ route('home.showProfile') }}">Профил</a></li>
             <li class="navLi"><a href="{{ route('quiz.listQuizzes') }}">Анкети</a></li>
             <li class="navLi"><a href="{{ route('results.viewResults') }}">Резултати</a></li>
             <li class="navLi"><a href="{{ route('statistics.statistics') }}">Статистики</a></li>
-            <li class="navLi"><a href="{{ route('home.doLogout') }}">Изход</a></li>
+            <li class="navLi" style="float: right"><a href="{{ route('home.doLogout') }}">Изход</a></li>
         </ul>
-        @endif
+    @endif
+    <div>
         @yield('content')
     </div>
+</div>
 </body>
 </html>

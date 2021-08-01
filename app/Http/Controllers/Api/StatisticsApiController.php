@@ -77,15 +77,6 @@ class StatisticsApiController extends Controller
                     }
                 }
                 break;
-            case StatisticMethodsConstants::TEST_METHOD:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $mazeGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::testMethod(), 6);
-                    }
-                }
-                break;
             default:
                 return response()->json(null, 400);
         }

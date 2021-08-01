@@ -24,6 +24,7 @@
 
 .container {
     display: block;
+    width: 80%;
 }
 
 .questionsContainer {
@@ -59,6 +60,7 @@ ol {
 
 .panel-info {
     border-color: rgb(63, 81, 181);
+    margin-bottom: 100px;
 }
 
 .list-quizzes {
