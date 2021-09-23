@@ -112,6 +112,13 @@ class StyleCalculator
         $recordForInsert->style4_name_id = PlayingStyle::PLAYING_STYLES["STRATEGIST"];
         $recordForInsert->style4_value = $playingStyles[PlayingStyle::PLAYING_STYLES["STRATEGIST"]];
 
+        if ($recordForInsert->style1_value == 0
+            && $recordForInsert->style2_value == 0
+            && $recordForInsert->style3_value == 0
+            && $recordForInsert->style4_value == 0) {
+            return;
+        }
+
         if ($needInsert) {
             $recordForInsert->save();
         } else {
@@ -128,7 +135,7 @@ class StyleCalculator
             LearningStyle::LEARNING_STYLES["RW"] => 0,
             LearningStyle::LEARNING_STYLES["KINESTHETIC"] => 0);
 
-        // get quiz questions for playing styles
+        // get quiz questions for learning styles
         $gridQuestionsLearningStyles =
             QuizQuestionsAnswersGridEntry
                 ::whereIn("entry_student_model_property_id", LearningStyle::LEARNING_STYLES)
@@ -151,10 +158,11 @@ class StyleCalculator
                 $qArray = explode('_', $key);
 
                 if (count($qArray) > 1) {
+
                     $answerGridIndex = $qArray[0] . "_" . $qArray[1];
 
                     if (count($qArray) == 3 && array_key_exists($answerGridIndex, $quizAnswerGridIds)) {
-                        // increment playing style
+                        // increment learning style
                         $learningStyles[$quizAnswerGridIds[$answerGridIndex]] +=
                             QuizQuestionsAnswersTypeEntry::where([["id", "=", $value]])->first()->answer_value;
                     }
@@ -162,10 +170,14 @@ class StyleCalculator
             }
         }
 
+        //Log::debug("before:" . json_encode($learningStyles));
+
         // normalization
         foreach ($learningStyles as $styleId => $styleValue) {
             $learningStyles[$styleId] = ($styleValue / 16) * 100;
         }
+
+        //Log::debug("after:" . json_encode($learningStyles));
 
         return $learningStyles;
     }
@@ -174,6 +186,8 @@ class StyleCalculator
     {
         $needInsert = false;
         $recordForInsert = LearningStyle::where([['student_id', "=", $userId]])->first();
+
+        //Log::debug("userId: $userId");
 
         if ($recordForInsert == null) {
             $recordForInsert = new LearningStyle();
@@ -194,9 +208,18 @@ class StyleCalculator
         $recordForInsert->style4_name_id = LearningStyle::LEARNING_STYLES["KINESTHETIC"];
         $recordForInsert->style4_value = $learningStyles[LearningStyle::LEARNING_STYLES["KINESTHETIC"]];
 
+        if ($recordForInsert->style1_value == 0
+            && $recordForInsert->style2_value == 0
+            && $recordForInsert->style3_value == 0
+            && $recordForInsert->style4_value == 0) {
+            return;
+        }
+
         if ($needInsert) {
+            //Log::debug("in save:");
             $recordForInsert->save();
         } else {
+            //Log::debug("in update:" . json_encode($recordForInsert));
             $recordForInsert->update();
         }
     }
