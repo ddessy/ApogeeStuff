@@ -10,7 +10,7 @@ use MathPHP\Statistics\EffectSize;
 use MathPHP\Statistics\Significance;
 
 
-//Add new methods here
+// Add new statistic methods
 class StatisticMethods
 {
     public static function standardDeviation($data1): float

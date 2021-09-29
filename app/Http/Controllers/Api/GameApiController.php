@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Game;
 use Illuminate\Routing\Controller;
 
+// Methods called in api.php
 class GameApiController extends Controller
 {
     public function getGames()
@@ -17,25 +18,4 @@ class GameApiController extends Controller
     {
         return Game::find($id);
     }
-
-//    public function createGame(Request $request)
-//    {
-//        return Game::create($request->all());
-//    }
-//
-//    public function updateGame(Request $request, $id)
-//    {
-//        $article = Game::findOrFail($id);
-//        $article->update($request->all());
-//
-//        return $article;
-//    }
-//
-//    public function deleteGame(Request $request, $id)
-//    {
-//        $article = Game::findOrFail($id);
-//        $article->delete();
-//
-//        return 204;
-//    }
 }

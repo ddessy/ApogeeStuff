@@ -10,6 +10,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+// To add new statistic methods follow the steps:
+// 1. Add the new method inside StatisticMethods.php
+// 2. Add statistic method's name inside StatisticMethodsConstants.php
+// 3. Add new case in getMethodResults() and call the new method
+
+// Methods called in api.php
 class StatisticsApiController extends Controller
 {
     public function calculateMazeGameResult(Request $request): JsonResponse
@@ -19,7 +25,6 @@ class StatisticsApiController extends Controller
         $selectedMazeGameMethod = $request->params['selectedMazeGameMethod'];
 
         $propertiesResults = [];
-        $mazeGameMethodResults = [];
 
         for ($i = 0; $i < count($selectedProperties); $i++) {
             $property = $selectedProperties[$i];
@@ -39,46 +44,10 @@ class StatisticsApiController extends Controller
         }
 
         $combinations = $this->getAllCombinations($selectedProperties);
-        switch ($selectedMazeGameMethod) {
-            case StatisticMethodsConstants::CORRELATION:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $mazeGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::correlation($data1, $data2), 6);
-                    }
-                }
-                break;
-            case StatisticMethodsConstants::T_TEST:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $mazeGameMethodResults[join(" / ", $combination)] = StatisticMethods::tTest($data1, $data2);
-                    }
-                }
-                break;
-            case StatisticMethodsConstants::ANOVA:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 3) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $data3 = $propertiesResults[$combination[2]]['data'];
-                        $mazeGameMethodResults[join(" / ", $combination)] = StatisticMethods::anovaOneWay($data1, $data2, $data3);
-                    }
-                }
-                break;
-            case StatisticMethodsConstants::EFFECT_SIZE:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $mazeGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::effectSizeCohensD($data1, $data2), 6);
-                    }
-                }
-                break;
-            default:
-                return response()->json(null, 400);
+        try {
+            $mazeGameMethodResults = $this->getMethodResults($selectedMazeGameMethod, $propertiesResults, $combinations);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
         }
 
         $response = [
@@ -97,7 +66,6 @@ class StatisticsApiController extends Controller
         $selectedMiniGameMethod = $request->params['selectedMiniGameMethod'];
 
         $propertiesResults = [];
-        $miniGameMethodResults = [];
 
         for ($i = 0; $i < count($selectedProperties); $i++) {
             $property = $selectedProperties[$i];
@@ -117,55 +85,10 @@ class StatisticsApiController extends Controller
         }
 
         $combinations = $this->getAllCombinations($selectedProperties);
-        switch ($selectedMiniGameMethod) {
-            case StatisticMethodsConstants::CORRELATION:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $miniGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::correlation($data1, $data2), 6);
-                    }
-                }
-                break;
-            case StatisticMethodsConstants::T_TEST:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $miniGameMethodResults[join(" / ", $combination)] = StatisticMethods::tTest($data1, $data2);
-                    }
-                }
-                break;
-            case StatisticMethodsConstants::ANOVA:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 3) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $data3 = $propertiesResults[$combination[2]]['data'];
-                        $miniGameMethodResults[join(" / ", $combination)] = StatisticMethods::anovaOneWay($data1, $data2, $data3);
-                    }
-                }
-                break;
-            case StatisticMethodsConstants::EFFECT_SIZE:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $miniGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::effectSizeCohensD($data1, $data2), 6);
-                    }
-                }
-                break;
-            case StatisticMethodsConstants::TEST_METHOD:
-                foreach ($combinations as $combination) {
-                    if (count($combination) == 2) {
-                        $data1 = $propertiesResults[$combination[0]]['data'];
-                        $data2 = $propertiesResults[$combination[1]]['data'];
-                        $miniGameMethodResults[join(" / ", $combination)] = round(StatisticMethods::testMethod(), 6);
-                    }
-                }
-                break;
-            default:
-                return response()->json(null, 400);
+        try {
+            $miniGameMethodResults = $this->getMethodResults($selectedMiniGameMethod, $propertiesResults, $combinations);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
         }
 
         $response = [
@@ -186,5 +109,53 @@ class StatisticsApiController extends Controller
                 array_push($results, array_merge(array($element), $combination));
 
         return $results;
+    }
+
+    // Add new statistic method
+    private function getMethodResults($method, $propertiesResults, $combinations): array
+    {
+        $methodResults = [];
+        switch ($method) {
+            case StatisticMethodsConstants::CORRELATION:
+                foreach ($combinations as $combination) {
+                    if (count($combination) == 2) {
+                        $data1 = $propertiesResults[$combination[0]]['data'];
+                        $data2 = $propertiesResults[$combination[1]]['data'];
+                        $methodResults[join(" / ", $combination)] = round(StatisticMethods::correlation($data1, $data2), 6);
+                    }
+                }
+                break;
+            case StatisticMethodsConstants::T_TEST:
+                foreach ($combinations as $combination) {
+                    if (count($combination) == 2) {
+                        $data1 = $propertiesResults[$combination[0]]['data'];
+                        $data2 = $propertiesResults[$combination[1]]['data'];
+                        $methodResults[join(" / ", $combination)] = StatisticMethods::tTest($data1, $data2);
+                    }
+                }
+                break;
+            case StatisticMethodsConstants::ANOVA:
+                foreach ($combinations as $combination) {
+                    if (count($combination) == 3) {
+                        $data1 = $propertiesResults[$combination[0]]['data'];
+                        $data2 = $propertiesResults[$combination[1]]['data'];
+                        $data3 = $propertiesResults[$combination[2]]['data'];
+                        $methodResults[join(" / ", $combination)] = StatisticMethods::anovaOneWay($data1, $data2, $data3);
+                    }
+                }
+                break;
+            case StatisticMethodsConstants::EFFECT_SIZE:
+                foreach ($combinations as $combination) {
+                    if (count($combination) == 2) {
+                        $data1 = $propertiesResults[$combination[0]]['data'];
+                        $data2 = $propertiesResults[$combination[1]]['data'];
+                        $methodResults[join(" / ", $combination)] = round(StatisticMethods::effectSizeCohensD($data1, $data2), 6);
+                    }
+                }
+                break;
+            default:
+                throw new \Exception('Statistic method not found');
+        }
+        return $methodResults;
     }
 }

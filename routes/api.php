@@ -21,11 +21,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//GET
+// REST APIs, called from frontend
+
+// GET
 Route::get('games', [GameApiController::class, 'getGames']);
 Route::get('miniGames/{gameId}', [MiniGameApiController::class, 'getMiniGames']);
 
-//POST
+// POST
 Route::post('statistics/calculateMazeGameResult', [StatisticsApiController::class, 'calculateMazeGameResult']);
 Route::post('statistics/calculateMiniGameResult', [StatisticsApiController::class, 'calculateMiniGameResult']);
 

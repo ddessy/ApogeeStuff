@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\PuzzleGamesResult;
 use Illuminate\Routing\Controller;
 
+// Methods called in api.php
 class MiniGameApiController extends Controller
 {
     public function getMiniGames($gameId)
@@ -18,25 +19,4 @@ class MiniGameApiController extends Controller
     {
         return Game::find($id);
     }
-
-//    public function createGame(Request $request)
-//    {
-//        return Game::create($request->all());
-//    }
-//
-//    public function updateGame(Request $request, $id)
-//    {
-//        $article = Game::findOrFail($id);
-//        $article->update($request->all());
-//
-//        return $article;
-//    }
-//
-//    public function deleteGame(Request $request, $id)
-//    {
-//        $article = Game::findOrFail($id);
-//        $article->delete();
-//
-//        return 204;
-//    }
 }
