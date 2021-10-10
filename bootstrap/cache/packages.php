@@ -1,60 +1,60 @@
 <?php return array (
-  'facade/ignition' =>
+  'facade/ignition' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Facade\\Ignition\\IgnitionServiceProvider',
     ),
-    'aliases' =>
+    'aliases' => 
     array (
       'Flare' => 'Facade\\Ignition\\Facades\\Flare',
     ),
   ),
-  'fideloper/proxy' =>
+  'fideloper/proxy' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
     ),
   ),
-  'fruitcake/laravel-cors' =>
+  'fruitcake/laravel-cors' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Fruitcake\\Cors\\CorsServiceProvider',
     ),
   ),
-  'laravel/sail' =>
+  'laravel/sail' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Sail\\SailServiceProvider',
     ),
   ),
-  'laravel/tinker' =>
+  'laravel/tinker' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'nesbot/carbon' =>
+  'nesbot/carbon' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Carbon\\Laravel\\ServiceProvider',
     ),
   ),
-  'nunomaduro/collision' =>
+  'nunomaduro/collision' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
-  'oscarafdev/migrations-generator' =>
+  'oscarafdev/migrations-generator' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Way\\Generators\\GeneratorsServiceProvider',
       1 => 'OscarAFDev\\MigrationsGenerator\\MigrationsGeneratorServiceProvider',

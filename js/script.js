@@ -171,7 +171,7 @@ function validateEmail(email) {
 
   var xmlhttp = new XMLHttpRequest();
 
-  xmlhttp.open("GET", "/checkemail/" + email, true);
+  xmlhttp.open("GET", getPath() + "/checkemail/" + email, true);
   xmlhttp.onload = function () {
     if (xmlhttp.status === 200) {
       if (xmlhttp.responseText === "userexists") {
@@ -224,7 +224,7 @@ function checkIfUserExists(email, password) {
 
   var xmlhttp = new XMLHttpRequest();
 
-  xmlhttp.open("POST", "/checkEmailPassword", false);
+  xmlhttp.open("POST", getPath() + "/checkEmailPassword", false);
 
   xmlhttp.onload = function () {
     if (xmlhttp.status === 200) {
@@ -243,4 +243,17 @@ function checkIfUserExists(email, password) {
   };
 
   xmlhttp.send(userData);
+}
+
+function getPath() {
+  let fullPath = window.location.pathname;
+  var pathArray = fullPath.split('/');
+  path = fullPath.substring(0,
+      fullPath.indexOf(pathArray[pathArray.length - 1])).replaceAll("/", "");
+
+  if (path != "") {
+    path = "/" + path;
+  }
+
+  return path;
 }

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
     <div class="panel panel-info" style="border-color: rgb(63, 81, 181);">
         <div class="panel-heading">
             <div class="panel-title">Вход в APOGEE</div>

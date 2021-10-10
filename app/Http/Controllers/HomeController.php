@@ -72,8 +72,6 @@ class HomeController extends Controller
             return redirect()->route('quiz.listQuizzes');
         }
 
-        Log::debug("noOk");
-
         session(['login' => MessageEnum::LoginError]);
         return redirect()->route('home.showLogin')->withErrors(['login' => MessageEnum::LoginError]);
     }
