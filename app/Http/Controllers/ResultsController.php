@@ -46,9 +46,6 @@ class ResultsController extends Controller
 
         $users = User::all();
 
-        session(['hallAndMiniGame' => $hallAndMiniGame]);
-        session(['results' => $results]);
-
         return view('results.miniGameResults',
             [
                 'hallAndMiniGame' => $hallAndMiniGame,
